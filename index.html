@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3CGreen Tech Audit & ROI Calculator | Công Cụ Thẩm Định Đầu Tư</title>
+    <title>3CGreen Panel - So Sánh Hiệu Quả & Tiết Kiệm Năng Lượng | Kho Lạnh & Lò Sấy</title>
+    <meta name="description" content="Phân tích chuyên sâu hiệu quả panel 3CGreen so với vật liệu truyền thống. Bằng chứng thực tế về tiết kiệm năng lượng, an toàn cháy nổ và độ bền vượt trội.">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -79,6 +80,14 @@
         .tooltip .tooltiptext { visibility: hidden; width: 250px; background-color: #333; color: #fff; text-align: left; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 125%; left: 50%; margin-left: -125px; opacity: 0; transition: opacity 0.3s; font-size: 0.85rem; font-weight: normal; line-height: 1.4; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
         .tooltip:hover .tooltiptext { visibility: visible; opacity: 1; }
         .hidden { display: none; }
+        /* SEO CONTENT */
+        .seo-content { background: #f9f9f9; padding: 40px; border-radius: 10px; margin-top: 40px; }
+        .seo-content h2 { color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 10px; }
+        .seo-criteria { margin-top: 30px; }
+        .criterion { margin-bottom: 25px; padding-bottom: 25px; border-bottom: 1px solid #eee; }
+        .criterion:last-child { border-bottom: none; }
+        .criterion h3 { color: var(--primary-dark); margin-bottom: 10px; }
+        .evidence { background: white; padding: 15px; border-radius: 8px; margin-top: 10px; border-left: 4px solid var(--primary); }
     </style>
 </head>
 <body>
@@ -165,6 +174,9 @@
                     <option value="ceramic_low">Bông gốm tỷ trọng thấp (80kg/m³)</option>
                     <option value="ceramic_high">Bông gốm tỷ trọng cao (100kg/m³)</option>
                 </select>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
+                    <i class="fas fa-info-circle"></i> Hệ thống sẽ so sánh lựa chọn này với <b>Chuẩn 3CGreen (Bông gốm tỷ trọng cao 100kg/m³, Tôn mạ màu G500)</b>.
+                </p>
             </div>
         </div>
         <button class="btn-calculate" onclick="runSimulation()">
@@ -185,12 +197,6 @@
                 <div class="stat-label">Tiết Kiệm Điện / Năm</div>
                 <div class="stat-value" id="res-money">0 VNĐ</div>
                 <div class="stat-sub">Nếu nâng cấp lên 3CGreen</div>
-            </div>
-
-            <div class="stat-card good">
-                <div class="stat-label">Thời Gian Hoàn Vốn</div>
-                <div class="stat-value" id="res-roi">14 Tháng</div>
-                <div class="stat-sub">Đầu tư thông minh</div>
             </div>
         </div>
 
@@ -213,13 +219,13 @@
                     <span class="dot" style="background:rgba(0, 104, 56, 1)"></span>
                     <div>
                         <strong>Vùng Xanh (Chuẩn 3CGreen):</strong>
-                        <div style="font-size:0.9rem; color:#666;">Bao phủ 100% tiêu chí kỹ thuật (PU 40kg/m³, Tôn mạ màu G500, IoT).</div>
+                        <div style="font-size:0.9rem; color:#666;">Bao phủ 100% tiêu chí kỹ thuật (PU 40kg/m³, Tôn mạ màu G500).</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <h3><i class="fas fa-clipboard-check"></i> BẢNG ĐỐI CHIẾU 10 TIÊU CHÍ KỸ THUẬT (AUDIT)</h3>
+        <h3><i class="fas fa-clipboard-check"></i> BẢNG ĐỐI CHIẾU 9 TIÊU CHÍ KỸ THUẬT (AUDIT)</h3>
         <div class="audit-wrapper">
             <table class="audit-table">
                 <thead>
@@ -235,18 +241,7 @@
             </table>
         </div>
 
-        <div class="lead-gen">
-            <h3><i class="fas fa-file-invoice-dollar"></i> BẠN CẦN BẢNG TÍNH CHI TIẾT ĐỂ TRÌNH SẾP?</h3>
-            <p>Hệ thống đã tạo một file PDF 5 trang bao gồm: Công thức tính dòng nhiệt, Chứng chỉ Quatest/ASTM, và Biểu đồ dòng tiền 5 năm.</p>
-            <div class="lead-inputs">
-                <input type="text" placeholder="Họ và Tên">
-                <input type="text" placeholder="Tên Công Ty">
-                <input type="text" placeholder="Số điện thoại (Zalo)">
-                <button class="btn-download" onclick="alert('Báo cáo đang được gửi vào Zalo của bạn!')">TẢI BÁO CÁO NGAY</button>
-            </div>
-        </div>
-    </div>
-</div>
+        
 
 <script>
     // --- DATABASE TIÊU CHÍ (THE EXPERT KNOWLEDGE BASE) ---
@@ -255,7 +250,7 @@
     const CRITERIA_COLD = [
         {
             name: "1. Hệ số dẫn nhiệt (Lambda)",
-            weight: 20,
+            weight: 22,
             tooltip: "Quyết định 60% hóa đơn tiền điện. Lambda càng thấp, cách nhiệt càng tốt.",
             std: "ASTM C518 / EN 12667",
             userBad: "Cao (0.038 W/mK)",
@@ -265,7 +260,7 @@
 
         {
             name: "2. Tỷ trọng lõi (Density)",
-            weight: 15,
+            weight: 18,
             tooltip: "Tỷ trọng thấp = Xốp rỗng = Dẫn nhiệt nhanh.",
             std: "TCVN 4606:1988",
             userBad: "Thấp (16-24 kg/m³)",
@@ -275,7 +270,7 @@
 
         {
             name: "3. Cấu trúc Ô kín (Closed Cell)",
-            weight: 10,
+            weight: 12,
             tooltip: "Ngăn hơi nước thẩm thấu làm hỏng khả năng cách nhiệt.",
             std: "ISO 4590",
             userBad: "Hở (Ngấm nước)",
@@ -285,7 +280,7 @@
 
         {
             name: "4. Độ bền vỏ (Skin Life)",
-            weight: 10,
+            weight: 12,
             tooltip: "Tôn thường sẽ rỉ sét sau 3-5 năm trong môi trường ẩm.",
             std: "ASTM A755/A755M",
             userBad: "Tôn thường (5 năm)",
@@ -295,7 +290,7 @@
 
         {
             name: "5. Kháng cháy (Fire Safety)",
-            weight: 10,
+            weight: 12,
             tooltip: "PU có cấp độ cháy B3 - cần lưu ý an toàn.",
             std: "QCVN 06:2022",
             userBad: "Dễ cháy (Class B3)",
@@ -305,7 +300,7 @@
 
         {
             name: "6. Kín khít (Joint System)",
-            weight: 10,
+            weight: 12,
             tooltip: "Ngàm Z-Lock giấu vít ngăn cầu nhiệt.",
             std: "ASTM E283 (Air Leakage)",
             userBad: "Hở nhiệt (Ngàm U)",
@@ -314,17 +309,7 @@
         },
 
         {
-            name: "7. Giám sát rủi ro (IoT)",
-            weight: 10,
-            tooltip: "Cảnh báo chập điện âm tường trước khi cháy.",
-            std: "3CGreen Active Tech",
-            userBad: "Không có (Mù thông tin)",
-            sysGood: "Cảnh báo sớm 24/7",
-            logic: (mat) => 0
-        },
-
-        {
-            name: "8. Chuẩn phòng sạch",
+            name: "7. Chuẩn phòng sạch",
             weight: 5,
             tooltip: "Bề mặt phẳng kháng khuẩn Ag+.",
             std: "ISO 14644 / GMP",
@@ -334,8 +319,8 @@
         },
 
         {
-            name: "9. Chịu tải trần",
-            weight: 5,
+            name: "8. Chịu tải trần",
+            weight: 4,
             tooltip: "Cho phép đi lại bảo trì trên trần.",
             std: "Point Load Test",
             userBad: "Yếu (Không đi được)",
@@ -344,8 +329,8 @@
         },
 
         {
-            name: "10. Hiệu quả đầu tư (ROI)",
-            weight: 5,
+            name: "9. Hiệu quả đầu tư (ROI)",
+            weight: 3,
             tooltip: "Thời gian thu hồi vốn chênh lệch.",
             std: "Financial Analysis",
             userBad: "Hoàn vốn >3 năm",
@@ -416,18 +401,8 @@
         },
 
         {
-            name: "7. IoT Điểm nóng",
-            weight: 5,
-            tooltip: "Phát hiện điểm rò rỉ nhiệt vỏ lò.",
-            std: "Hotspot Detection",
-            userBad: "Không",
-            sysGood: "Có",
-            logic: (mat) => 0
-        },
-
-        {
-            name: "8. Độ dày cách nhiệt",
-            weight: 5,
+            name: "7. Độ dày cách nhiệt",
+            weight: 10,
             tooltip: "Càng dày càng giữ nhiệt tốt.",
             std: "Heat Loss Calc",
             userBad: "Mỏng (50mm)",
@@ -436,8 +411,8 @@
         },
 
         {
-            name: "9. An toàn vỏ lò",
-            weight: 2,
+            name: "8. An toàn vỏ lò",
+            weight: 3,
             tooltip: "Vỏ lò mát đảm bảo an toàn lao động.",
             std: "Safety Std",
             userBad: "Nóng (Bỏng)",
@@ -446,8 +421,8 @@
         },
 
         {
-            name: "10. Tuổi thọ vật liệu",
-            weight: 3,
+            name: "9. Tuổi thọ vật liệu",
+            weight: 2,
             tooltip: "Số năm vận hành liên tục.",
             std: "Lifespan Analysis",
             userBad: "< 2 năm",
