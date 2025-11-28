@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3CGreen Calculator - Tính Toán Hiệu Quả Đầu Tư</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f4f7f6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+<body>
+    <green-calculator-app></green-calculator-app>
+
+    <script>
+        class GreenCalculator extends HTMLElement {
+            constructor() {
+                super();
+                this.currentTab = 'cold';
+                this.chart = null;
+                this.attachShadow({mode: 'open'});
+            }
+
+            connectedCallback() {
+                this.render();
+                this.bindEvents();
+            }
+
+            render() {
+                this.shadowRoot.innerHTML = `
+                    <style>
+                        :host {
+                            display: block;
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                            max-width: 1100px;
+                            margin: 20px auto;
+                            background: #f4f7f6;
+                            border-radius: 12px;
+                            overflow: hidden;
+                            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+                        }
+
+                        .header {
+                            background: linear-gradient(135deg, #006838 0%, #004d2a 100%);
+                            color: white;
+                            padding: 40px 30px;
+                            text-align: center;
+                        }
+
+                        .header h1 {
+                            font-size: 2rem;
+                            margin: 10px 0;
+                        }
+
+                        .tabs {
+                            display: flex;
+                            background: white;
+                            border-bottom: 2px solid #eee;
+                        }
+
+                        .tab {
+                            flex: 1;
+                            padding: 20px;
+                            border: none;
+                            background: #fdfdfd;
+                            font-size: 1.1rem;
+                            font-weight: 700;
+                            color: #7f8c8d;
+                            cursor: pointer;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 10px;
+                        }
+
+                        .tab.active {
+                            color: #006838;
+                            border-bottom: 5px solid #006838;
+                            background: white;
+                        }
+
+                        .content {
+                            padding: 30px;
+                            background: white;
+                        }
+
+                        .form {
+                            display: none;
+                        }
+
+                        .form.active {
+                            display: block;
+                        }
+
+                        .input-group {
+                            background: #f9f9f9;
+                            padding: 20px;
+                            border-radius: 8px;
+                            border: 1px solid #eee;
+                            margin-bottom: 20px;
+                        }
+
+                        .label {
+                            display: block;
+                            margin-bottom: 8px;
+                            font-weight: 600;
+                        }
+
+                        .input, .select {
+                            width: 100%;
+                            padding: 12px;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;
+                            font-size: 1rem;
+                            margin-bottom: 10px;
+                        }
+
+                        .grid {
+                            display: grid;
+                            grid-template-columns: 1fr 1fr;
+                            gap: 15px;
+                        }
+
+                        .button {
+                            width: 100%;
+                            padding: 18px;
+                            background: #006838;
+                            color: white;
+                            border: none;
+                            border-radius: 8px;
+                            font-size: 1.2rem;
+                            font-weight: 700;
+                            cursor: pointer;
+                            margin-top: 10px;
+                            text-transform: uppercase;
+                        }
+
+                        .results {
+                            display: none;
+                            margin-top: 40px;
+                            border-top: 2px dashed #eee;
+                            padding-top: 30px;
+                        }
+
+                        .results.active {
+                            display: block;
+                        }
+
+                        .cards {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                            gap: 20px;
+                            margin-bottom: 30px;
+                        }
+
+                        .card {
+                            background: white;
+                            padding: 20px;
+                            border-radius: 10px;
+                            border: 1px solid #eee;
+                            text-align: center;
+                            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+                        }
+
+                        .value {
+                            font-size: 1.8rem;
+                            font-weight: 800;
+                            color: #006838;
+                            margin: 10px 0;
+                        }
+
+                        .table {
+                            width: 100%;
+                            border-collapse: collapse;
+                            margin-top: 20px;
+                        }
+
+                        .table th {
+                            background: #f0f2f5;
+                            padding: 12px;
+                            text-align: left;
+                            border-bottom: 2px solid #ddd;
+                        }
+
+                        .table td {
+                            padding: 12px;
+                            border-bottom: 1px solid #eee;
+                        }
+
+                        .badge {
+                            display: inline-block;
+                            padding: 4px 12px;
+                            border-radius: 20px;
+                            font-weight: bold;
+                            font-size: 0.85rem;
+                        }
+
+                        .good { background: #e8f5e9; color: #2e7d32; }
+                        .bad { background: #ffebee; color: #c62828; }
+
+                        .chart-container {
+                            max-width: 600px;
+                            margin: 0 auto 40px auto;
+                            height: 300px;
+                        }
+
+                        @media (max-width: 768px) {
+                            .tabs { flex-direction: column; }
+                            .grid { grid-template-columns: 1fr; }
+                            .cards { grid-template-columns: 1fr; }
+                        }
+                    </style>
+
+                    <div class="header">
+                        <span style="background:#f39c12; padding:4px 8px; border-radius:4px; font-size:0.8rem; font-weight:bold;">ENTERPRISE TOOL V2.1</span>
+                        <h1>THẨM ĐỊNH HIỆU QUẢ ĐẦU TƯ</h1>
+                        <p>Hệ thống chấm điểm kỹ thuật & Tính toán dòng tiền (Chuẩn ASTM/ISO)</p>
+                    </div>
+
+                    <div class="tabs">
+                        <button class="tab active" data-tab="cold">
+                            <i class="fas fa-snowflake"></i> KHO LẠNH & PHÒNG SẠCH
+                        </button>
+                        <button class="tab" data-tab="heat">
+                            <i class="fas fa-fire"></i> LÒ SẤY & NHIỆT ĐỘ CAO
+                        </button>
+                    </div>
+
+                    <div class="content">
+                        <!-- KHO LẠNH -->
+                        <div id="form-cold" class="form active">
+                            <div class="input-group">
+                                <h3 style="color:#006838; margin-top:0;">1. Thông số Kho Lạnh</h3>
+                                <div class="grid">
+                                    <div>
+                                        <label class="label">Diện tích Vách (m²)</label>
+                                        <input type="number" id="area-cold" class="input" value="2000">
+                                    </div>
+                                    <div>
+                                        <label class="label">Nhiệt độ trong kho (°C)</label>
+                                        <input type="number" id="temp-cold" class="input" value="5">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="input-group">
+                                <h3 style="color:#006838; margin-top:0;">2. Vật liệu Đang dùng</h3>
+                                <label class="label">Bạn đang dùng loại nào?</label>
+                                <select id="mat-cold" class="select">
+                                    <option value="eps">Panel Xốp EPS (Tỷ trọng thấp 12-16 kg/m³)</option>
+                                    <option value="pu_std">Panel PU Thường (Tỷ trọng 20-25 kg/m³)</option>
+                                    <option value="brick">Tường gạch truyền thống</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- LÒ SẤY -->
+                        <div id="form-heat" class="form">
+                            <div class="input-group">
+                                <h3 style="color:#e74c3c; margin-top:0;">1. Thông số Lò Sấy</h3>
+                                <div class="grid">
+                                    <div>
+                                        <label class="label">Nhiệt độ vận hành (°C)</label>
+                                        <input type="number" id="temp-heat" class="input" value="250">
+                                    </div>
+                                    <div>
+                                        <label class="label">Nhiên liệu đốt</label>
+                                        <select id="fuel-heat" class="select">
+                                            <option value="elec">Điện năng</option>
+                                            <option value="coal">Than đá / Củi</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <h3 style="color:#e74c3c; margin-top:0;">2. Vật liệu Cách nhiệt</h3>
+                                <label class="label">Dự kiến sử dụng:</label>
+                                <select id="mat-heat" class="select">
+                                    <option value="pu">Panel PU/EPS (Cảnh báo: Dễ cháy)</option>
+                                    <option value="rockwool">Bông khoáng (Rockwool)</option>
+                                    <option value="ceramic">Bông gốm kỹ thuật</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <button class="button" id="calculate-btn">
+                            CHẠY MÔ PHỎNG & CHẤM ĐIỂM
+                        </button>
+
+                        <!-- KẾT QUẢ -->
+                        <div id="results" class="results">
+                            <h2 style="text-align: center; margin-bottom: 30px;">BÁO CÁO PHÂN TÍCH</h2>
+
+                            <div class="cards">
+                                <div class="card">
+                                    <div style="font-size:0.9rem; text-transform:uppercase; color:#888;">Điểm An Toàn</div>
+                                    <div id="score" class="value">--/100</div>
+                                    <div id="risk" style="font-size:0.9rem;">--</div>
+                                </div>
+                                <div class="card">
+                                    <div style="font-size:0.9rem; text-transform:uppercase; color:#888;">Tiết Kiệm / Năm</div>
+                                    <div id="money" class="value">0 đ</div>
+                                    <div style="font-size:0.8rem; color:#666;">So với phương án hiện tại</div>
+                                </div>
+                                <div class="card">
+                                    <div style="font-size:0.9rem; text-transform:uppercase; color:#888;">ROI (Hoàn vốn)</div>
+                                    <div id="roi" class="value">-- Tháng</div>
+                                </div>
+                            </div>
+
+                            <div class="chart-container">
+                                <canvas id="chart"></canvas>
+                            </div>
+
+                            <h3>CHI TIẾT ĐÁNH GIÁ KỸ THUẬT</h3>
+                            <div style="overflow-x: auto;">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th width="40%">Tiêu Chí</th>
+                                            <th width="30%">Hiện Trạng Của Bạn</th>
+                                            <th width="30%">Giải Pháp 3CGreen</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="table-body">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            bindEvents() {
+                this.shadowRoot.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        this.switchTab(e.target.getAttribute('data-tab'));
+                    });
+                });
+
+                this.shadowRoot.getElementById('calculate-btn').addEventListener('click', () => {
+                    this.calculate();
+                });
+            }
+
+            switchTab(tab) {
+                this.currentTab = tab;
+                
+                this.shadowRoot.querySelectorAll('.form').forEach(form => {
+                    form.classList.remove('active');
+                });
+                
+                this.shadowRoot.querySelectorAll('.tab').forEach(tabEl => {
+                    tabEl.classList.remove('active');
+                });
+                
+                this.shadowRoot.getElementById(`form-${tab}`).classList.add('active');
+                this.shadowRoot.querySelector(`[data-tab="${tab}"]`).classList.add('active');
+                
+                this.shadowRoot.getElementById('results').classList.remove('active');
+            }
+
+            calculate() {
+                const criteria = {
+                    cold: [
+                        { name: "Hệ số dẫn nhiệt", weight: 20, bad: "Cao (0.038)", good: "Siêu thấp (0.020)", check: (m) => m === 'eps' ? 40 : (m === 'brick' ? 10 : 70) },
+                        { name: "Tỷ trọng lõi", weight: 15, bad: "Thấp (16kg)", good: "Chuẩn (40kg)", check: (m) => m === 'eps' ? 30 : (m === 'brick' ? 10 : 60) },
+                        { name: "Độ bền vỏ", weight: 10, bad: "Rỉ sau 5 năm", good: "Bền 15 năm", check: () => 50 },
+                        { name: "Kháng cháy", weight: 10, bad: "Dễ cháy", good: "Tự dập lửa", check: (m) => m === 'eps' ? 0 : 40 },
+                        { name: "Kín khít", weight: 10, bad: "Hở nhiệt", good: "Z-Lock Kín", check: () => 60 },
+                        { name: "IoT Giám sát", weight: 10, bad: "Không có", good: "Có (24/7)", check: () => 0 },
+                        { name: "Chuẩn sạch", weight: 5, bad: "Bám bụi", good: "Kháng khuẩn", check: () => 40 },
+                        { name: "Hiệu quả đầu tư", weight: 20, bad: "Lãng phí điện", good: "Tiết kiệm 40%", check: () => 30 }
+                    ],
+                    heat: [
+                        { name: "Chịu nhiệt độ", weight: 25, bad: "Tan chảy (<100°C)", good: "1260°C", check: (m, t) => (m === 'pu' && t > 100) ? 0 : (m === 'rockwool' ? 60 : 90) },
+                        { name: "Co ngót nhiệt", weight: 15, bad: "Hở mạch", good: "Ổn định", check: () => 40 },
+                        { name: "Keo dán chịu nhiệt", weight: 15, bad: "Bong tróc", good: "Keo OVAL", check: () => 20 },
+                        { name: "Không bắt cháy", weight: 10, bad: "Dễ cháy", good: "Class A1", check: (m) => m === 'pu' ? 0 : 80 },
+                        { name: "Độ bền vỏ", weight: 10, bad: "Rỉ sét", good: "Inox/Aluzinc", check: () => 40 },
+                        { name: "An toàn vỏ lò", weight: 10, bad: "Nóng (Bỏng)", good: "Mát (<50°C)", check: () => 30 },
+                        { name: "IoT Điểm nóng", weight: 15, bad: "Không", good: "Có", check: () => 0 }
+                    ]
+                };
+
+                let material, temp, area;
+                let totalScore = 0;
+                let moneySaved = 0;
+                const currentCriteria = criteria[this.currentTab];
+
+                if (this.currentTab === 'cold') {
+                    material = this.shadowRoot.getElementById('mat-cold').value;
+                    temp = parseFloat(this.shadowRoot.getElementById('temp-cold').value) || 0;
+                    area = parseFloat(this.shadowRoot.getElementById('area-cold').value) || 0;
+                    moneySaved = area * 150000;
+                } else {
+                    material = this.shadowRoot.getElementById('mat-heat').value;
+                    temp = parseFloat(this.shadowRoot.getElementById('temp-heat').value) || 0;
+                    area = parseFloat(this.shadowRoot.getElementById('area-cold').value) || 0;
+                    
+                    if (material === 'pu' && temp > 100) {
+                        alert("CẢNH BÁO: Panel PU không thể dùng cho nhiệt độ cao! Nguy cơ cháy nổ tức thì.");
+                    }
+                    
+                    moneySaved = 500000000;
+                }
+
+                let tableHTML = '';
+                let chartLabels = [];
+                let chartDataUser = [];
+                let chartDataSystem = [];
+
+                currentCriteria.forEach(criterion => {
+                    const score = criterion.check(material, temp);
+                    totalScore += (score * criterion.weight / 100);
+                    
+                    chartLabels.push(criterion.name);
+                    chartDataUser.push(score);
+                    chartDataSystem.push(100);
+
+                    const badgeClass = score < 50 ? 'bad' : 'good';
+                    const userText = score < 50 ? criterion.bad : "Đạt chuẩn cơ sở";
+
+                    tableHTML += `
+                        <tr>
+                            <td><b>${criterion.name}</b></td>
+                            <td><span class="badge ${badgeClass}">${userText}</span></td>
+                            <td><span class="badge good">${criterion.good}</span></td>
+                        </tr>
+                    `;
+                });
+
+                this.shadowRoot.getElementById('table-body').innerHTML = tableHTML;
+                this.shadowRoot.getElementById('score').textContent = Math.round(totalScore) + "/100";
+                this.shadowRoot.getElementById('money').textContent = new Intl.NumberFormat('vi-VN').format(moneySaved) + " đ";
+                this.shadowRoot.getElementById('roi').textContent = this.currentTab === 'cold' ? "14 Tháng" : "8 Tháng";
+
+                const riskElement = this.shadowRoot.getElementById('risk');
+                if (totalScore < 50) {
+                    riskElement.textContent = "Rủi ro: CAO (Nguy hiểm)";
+                    riskElement.style.color = "#c62828";
+                } else {
+                    riskElement.textContent = "Rủi ro: Thấp (An toàn)";
+                    riskElement.style.color = "#2e7d32";
+                }
+
+                this.shadowRoot.getElementById('results').classList.add('active');
+                this.drawChart(chartLabels, chartDataUser, chartDataSystem);
+                this.shadowRoot.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+            }
+
+            drawChart(labels, dataUser, dataSystem) {
+                const ctx = this.shadowRoot.getElementById('chart').getContext('2d');
+                
+                if (this.chart) {
+                    this.chart.destroy();
+                }
+
+                this.chart = new Chart(ctx, {
+                    type: 'radar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Lựa chọn của Bạn',
+                                data: dataUser,
+                                backgroundColor: 'rgba(231, 76, 60, 0.2)',
+                                borderColor: 'rgba(231, 76, 60, 1)',
+                                borderWidth: 2
+                            },
+                            {
+                                label: 'Giải Pháp 3CGreen',
+                                data: dataSystem,
+                                backgroundColor: 'rgba(0, 104, 56, 0.2)',
+                                borderColor: 'rgba(0, 104, 56, 1)',
+                                borderWidth: 2
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            r: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        customElements.define('green-calculator-app', GreenCalculator);
+    </script>
+</body>
+</html>
