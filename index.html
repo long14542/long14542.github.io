@@ -130,7 +130,7 @@
                     <option value="brick">Tường gạch truyền thống 220mm</option>
                 </select>
                 <p style="font-size: 0.9rem; color: #666; margin-top: 10px;">
-                    <i class="fas fa-info-circle"></i> Hệ thống sẽ so sánh lựa chọn này với <b>Chuẩn 3CGreen Premium (PIR 40kg/m³, Tôn Bluescope)</b>.
+                    <i class="fas fa-info-circle"></i> Hệ thống sẽ so sánh lựa chọn này với <b>Chuẩn 3CGreen Premium (PU 40kg/m³, Tôn mạ màu G500)</b>.
                 </p>
             </div>
         </div>
@@ -163,6 +163,7 @@
                     <option value="pu">Panel PU/EPS (Giá rẻ)</option>
                     <option value="rockwool">Bông khoáng thường (Rockwool 600°C)</option>
                     <option value="ceramic_low">Bông gốm tỷ trọng thấp (80kg/m³)</option>
+                    <option value="ceramic_high">Bông gốm tỷ trọng cao (100kg/m³)</option>
                 </select>
             </div>
         </div>
@@ -212,7 +213,7 @@
                     <span class="dot" style="background:rgba(0, 104, 56, 1)"></span>
                     <div>
                         <strong>Vùng Xanh (Chuẩn 3CGreen):</strong>
-                        <div style="font-size:0.9rem; color:#666;">Bao phủ 100% tiêu chí kỹ thuật (PIR 40kg/m³, Tôn Bluescope, IoT).</div>
+                        <div style="font-size:0.9rem; color:#666;">Bao phủ 100% tiêu chí kỹ thuật (PU 40kg/m³, Tôn mạ màu G500, IoT).</div>
                     </div>
                 </div>
             </div>
@@ -258,7 +259,7 @@
             tooltip: "Quyết định 60% hóa đơn tiền điện. Lambda càng thấp, cách nhiệt càng tốt.",
             std: "ASTM C518 / EN 12667",
             userBad: "Cao (0.038 W/mK)",
-            sysGood: "Siêu thấp (0.020 W/mK)",
+            sysGood: "Siêu thấp (0.022 W/mK)",
             logic: (mat) => mat === 'eps' ? 40 : (mat === 'brick' ? 10 : 70)
         },
 
@@ -268,7 +269,7 @@
             tooltip: "Tỷ trọng thấp = Xốp rỗng = Dẫn nhiệt nhanh.",
             std: "TCVN 4606:1988",
             userBad: "Thấp (16-24 kg/m³)",
-            sysGood: "Chuẩn Vàng (40-42 kg/m³)",
+            sysGood: "Chuẩn (40 kg/m³)",
             logic: (mat) => mat === 'eps' ? 30 : (mat === 'pu_std' ? 60 : 20)
         },
 
@@ -286,19 +287,19 @@
             name: "4. Độ bền vỏ (Skin Life)",
             weight: 10,
             tooltip: "Tôn thường sẽ rỉ sét sau 3-5 năm trong môi trường ẩm.",
-            std: "ASTM B117 (Salt Spray)",
+            std: "ASTM A755/A755M",
             userBad: "Tôn thường (5 năm)",
-            sysGood: "Bluescope (15-20 năm)",
+            sysGood: "Tôn mạ màu G500 (15-20 năm)",
             logic: (mat) => 50
         },
 
         {
             name: "5. Kháng cháy (Fire Safety)",
             weight: 10,
-            tooltip: "PIR B1 tự dập lửa, EPS là chất dẫn cháy.",
-            std: "DIN 4102 / QCVN 06:2022",
+            tooltip: "PU có cấp độ cháy B3 - cần lưu ý an toàn.",
+            std: "QCVN 06:2022",
             userBad: "Dễ cháy (Class B3)",
-            sysGood: "Tự dập lửa (PIR B1)",
+            sysGood: "B3",
             logic: (mat) => mat === 'eps' ? 0 : 40
         },
 
@@ -360,7 +361,7 @@
             tooltip: "Vượt quá nhiệt độ này vật liệu sẽ tan chảy.",
             std: "ASTM C411",
             userBad: "Tan chảy (<100°C)",
-            sysGood: "Bền vững (1260°C)",
+            sysGood: "Bền vững (600°C)",
             logic: (mat) => mat === 'pu' ? 0 : (mat === 'rockwool' ? 60 : 70)
         },
 
@@ -398,9 +399,9 @@
             name: "5. Độ bền vỏ (Corrosion)",
             weight: 10,
             tooltip: "Khói lò chứa axit ăn mòn kim loại.",
-            std: "ASTM B117",
+            std: "ASTM A755/A755M",
             userBad: "Rỉ sét nhanh",
-            sysGood: "Inox / Aluzinc",
+            sysGood: "Tôn mạ màu G500",
             logic: (mat) => 40
         },
 
@@ -411,7 +412,7 @@
             std: "Density Test",
             userBad: "Thấp (<80kg)",
             sysGood: "Đặc (>100kg)",
-            logic: (mat) => 50
+            logic: (mat) => mat === 'ceramic_low' ? 70 : (mat === 'ceramic_high' ? 90 : 50)
         },
 
         {
@@ -481,7 +482,7 @@
             material = document.getElementById('matCold').value;
             auditList = CRITERIA_COLD;
             // Logic tính tiền tiết kiệm (Physics Formula: Q = U*A*dT)
-            // Delta U giữa EPS và PIR ~ 0.02 W/m2K.
+            // Delta U giữa EPS và PU ~ 0.02 W/m2K.
             // Giả sử chạy 24h/365 ngày. COP = 3.
             let deltaT = 30 - temp; // Nhiệt độ ngoài trời 30
             let qSaved = 0.3 * area * deltaT; // Watt tiết kiệm được (ước lượng)
