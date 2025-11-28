@@ -3,19 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3CGreen Calculator - Tính Toán Hiệu Quả Đầu Tư</title>
+    <title>3CGreen - Tính Toán Hiệu Quả Đầu Tư Panel</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #f4f7f6;
+            background: #f4f7f6; 
             padding: 20px;
             min-height: 100vh;
         }
@@ -36,6 +31,7 @@
             connectedCallback() {
                 this.render();
                 this.bindEvents();
+                console.log('✅ 3CG Calculator đã khởi tạo!');
             }
 
             render() {
@@ -358,18 +354,10 @@
 
             switchTab(tab) {
                 this.currentTab = tab;
-                
-                this.shadowRoot.querySelectorAll('.form').forEach(form => {
-                    form.classList.remove('active');
-                });
-                
-                this.shadowRoot.querySelectorAll('.tab').forEach(tabEl => {
-                    tabEl.classList.remove('active');
-                });
-                
+                this.shadowRoot.querySelectorAll('.form').forEach(form => form.classList.remove('active'));
+                this.shadowRoot.querySelectorAll('.tab').forEach(tabEl => tabEl.classList.remove('active'));
                 this.shadowRoot.getElementById(`form-${tab}`).classList.add('active');
                 this.shadowRoot.querySelector(`[data-tab="${tab}"]`).classList.add('active');
-                
                 this.shadowRoot.getElementById('results').classList.remove('active');
             }
 
@@ -396,9 +384,8 @@
                     ]
                 };
 
-                let material, temp, area;
+                let material, temp, area, moneySaved;
                 let totalScore = 0;
-                let moneySaved = 0;
                 const currentCriteria = criteria[this.currentTab];
 
                 if (this.currentTab === 'cold') {
@@ -410,12 +397,10 @@
                     material = this.shadowRoot.getElementById('mat-heat').value;
                     temp = parseFloat(this.shadowRoot.getElementById('temp-heat').value) || 0;
                     area = parseFloat(this.shadowRoot.getElementById('area-cold').value) || 0;
-                    
+                    moneySaved = 500000000;
                     if (material === 'pu' && temp > 100) {
                         alert("CẢNH BÁO: Panel PU không thể dùng cho nhiệt độ cao! Nguy cơ cháy nổ tức thì.");
                     }
-                    
-                    moneySaved = 500000000;
                 }
 
                 let tableHTML = '';
@@ -434,13 +419,11 @@
                     const badgeClass = score < 50 ? 'bad' : 'good';
                     const userText = score < 50 ? criterion.bad : "Đạt chuẩn cơ sở";
 
-                    tableHTML += `
-                        <tr>
-                            <td><b>${criterion.name}</b></td>
-                            <td><span class="badge ${badgeClass}">${userText}</span></td>
-                            <td><span class="badge good">${criterion.good}</span></td>
-                        </tr>
-                    `;
+                    tableHTML += `<tr>
+                        <td><b>${criterion.name}</b></td>
+                        <td><span class="badge ${badgeClass}">${userText}</span></td>
+                        <td><span class="badge good">${criterion.good}</span></td>
+                    </tr>`;
                 });
 
                 this.shadowRoot.getElementById('table-body').innerHTML = tableHTML;
@@ -464,10 +447,7 @@
 
             drawChart(labels, dataUser, dataSystem) {
                 const ctx = this.shadowRoot.getElementById('chart').getContext('2d');
-                
-                if (this.chart) {
-                    this.chart.destroy();
-                }
+                if (this.chart) this.chart.destroy();
 
                 this.chart = new Chart(ctx, {
                     type: 'radar',
@@ -492,12 +472,7 @@
                     },
                     options: {
                         responsive: true,
-                        scales: {
-                            r: {
-                                suggestedMin: 0,
-                                suggestedMax: 100
-                            }
-                        }
+                        scales: { r: { suggestedMin: 0, suggestedMax: 100 } }
                     }
                 });
             }
