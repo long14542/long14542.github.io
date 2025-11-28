@@ -230,10 +230,9 @@
             <table class="audit-table">
                 <thead>
                     <tr>
-                        <th width="30%">Tiêu Chí Đánh Giá</th>
-                        <th width="10%">Trọng Số</th>
-                        <th width="25%">Lựa Chọn Của Bạn</th>
-                        <th width="35%">Giải Pháp 3CGreen</th>
+                        <th width="40%">Tiêu Chí Đánh Giá</th>
+                        <th width="30%">Lựa Chọn Của Bạn</th>
+                        <th width="30%">Giải Pháp 3CGreen</th>
                     </tr>
                 </thead>
                 <tbody id="audit-rows">
@@ -241,7 +240,18 @@
             </table>
         </div>
 
-        
+        <div class="lead-gen">
+            <h3><i class="fas fa-file-invoice-dollar"></i> BẠN CẦN BẢNG TÍNH CHI TIẾT ĐỂ TRÌNH SẾP?</h3>
+            <p>Hệ thống đã tạo một file PDF 5 trang bao gồm: Công thức tính dòng nhiệt, Chứng chỉ Quatest/ASTM, và Biểu đồ dòng tiền 5 năm.</p>
+            <div class="lead-inputs">
+                <input type="text" placeholder="Họ và Tên">
+                <input type="text" placeholder="Tên Công Ty">
+                <input type="text" placeholder="Số điện thoại (Zalo)">
+                <button class="btn-download" onclick="alert('Báo cáo đang được gửi vào Zalo của bạn!')">TẢI BÁO CÁO NGAY</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     // --- DATABASE TIÊU CHÍ (THE EXPERT KNOWLEDGE BASE) ---
@@ -502,7 +512,6 @@
                         ${item.name} <i class="fas fa-question-circle tooltip"><span class="tooltiptext">${item.tooltip}</span></i>
                         <span class="std-ref"><i class="fas fa-check-shield"></i> ${item.std}</span>
                     </td>
-                    <td align="center"><b>${item.weight}%</b></td>
                     <td><span class="score-box ${userClass}">${userText}</span></td>
                     <td><span class="score-box score-high">${item.sysGood}</span></td>
                 </tr>
@@ -532,7 +541,7 @@
              scoreCard.classList.add('good');
         }
         // 4. Vẽ Biểu đồ
-        renderChart(labels, chartDataUser, chartDataSys);
+        renderChart(labels, chartDataUser, dataSys);
         // Scroll xuống
         document.getElementById('results').scrollIntoView({behavior: "smooth"});
     }
