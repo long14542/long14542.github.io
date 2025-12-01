@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BÁO CÁO THẨM ĐỊNH CHUYÊN SÂU: Logic Tính Toán Hiệu Quả Năng Lượng & Phân Tích Tài Chính | 3C Green</title>
-    <meta name="description" content="Phân tích chuyên sâu dựa trên dữ liệu giá thành 2025, tích hợp yếu tố kỹ thuật thực tế và mô hình tài chính đa kịch bản">
+    <title>HỆ THỐNG ĐỊNH GIÁ THÔNG MINH 3CGREEN | Member of 3CElectric Group</title>
+    <meta name="description" content="Công cụ CPQ (Cấu hình - Định giá - Chào hàng) thông minh cho Panel cách nhiệt PU & Bông khoáng với tích hợp hệ sinh thái Oval">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,6 +24,7 @@
             --white: #ffffff;
             --gray-light: #f8f9fa;
             --border: #e1e8ed;
+            --ecosystem: #3498db;
         }
 
         * {
@@ -33,7 +34,7 @@
         }
 
         body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; 
             background-color: var(--bg-light); 
             color: var(--text-dark); 
             line-height: 1.6; 
@@ -41,7 +42,7 @@
         }
         
         .container { 
-            max-width: 1200px; 
+            max-width: 1400px; 
             margin: 0 auto; 
             background: var(--white); 
             box-shadow: 0 10px 40px rgba(0,0,0,0.08); 
@@ -49,41 +50,58 @@
             overflow: hidden; 
         }
         
-        .header { 
+        /* HEADER VỚI THƯƠNG HIỆU 3CELECTRIC */
+        .brand-header { 
             background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); 
             color: var(--white); 
-            padding: 30px; 
-            text-align: center; 
+            padding: 20px 30px; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            border-bottom: 5px solid var(--accent);
         }
         
-        .header h1 { 
-            font-size: 2.2rem; 
-            margin: 0 0 15px 0; 
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .brand-badge { 
+            background: var(--accent); 
+            color: #fff; 
+            padding: 8px 20px; 
+            border-radius: 20px; 
+            font-size: 0.9rem; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+        
+        .ecosystem-tag {
+            background: var(--ecosystem);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .brand-header h1 { 
+            font-size: 1.8rem; 
+            margin: 10px 0 5px 0; 
             font-weight: 800; 
             letter-spacing: -0.5px; 
         }
         
-        .header p { 
-            font-size: 1.1rem; 
+        .brand-header .tagline { 
+            font-size: 1rem; 
             opacity: 0.9; 
-            margin: 0; 
-            max-width: 900px; 
-            margin: 0 auto; 
+            max-width: 600px;
         }
         
-        .badge-pro { 
-            background: var(--accent); 
-            color: #fff; 
-            padding: 5px 15px; 
-            border-radius: 20px; 
-            font-size: 0.8rem; 
-            font-weight: bold; 
-            vertical-align: middle; 
-            text-transform: uppercase; 
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-        
+        /* TABS HỆ THỐNG CPQ */
         .tabs { 
             display: flex; 
             border-bottom: 2px solid var(--border); 
@@ -117,8 +135,13 @@
             border-bottom: 5px solid var(--primary); 
         }
         
+        /* CONTENT SECTIONS */
         .content-section {
             padding: 40px;
+        }
+        
+        .hidden { 
+            display: none; 
         }
         
         .section-title { 
@@ -133,19 +156,18 @@
             gap: 10px;
         }
         
-        .section-subtitle {
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin: 25px 0 15px;
-            color: var(--text-dark);
+        .config-wizard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
         }
         
-        .input-group { 
-            background: var(--gray-light); 
-            padding: 25px; 
-            border-radius: 8px; 
-            border: 1px solid var(--border); 
-            margin-bottom: 25px;
+        .config-step {
+            background: var(--gray-light);
+            padding: 25px;
+            border-radius: 10px;
+            border: 1px solid var(--border);
         }
         
         .input-row {
@@ -182,376 +204,86 @@
             box-shadow: 0 0 0 3px rgba(0,104,56,0.1); 
         }
         
-        .form-control:disabled {
-            background-color: #f5f5f5;
-            color: #999;
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
         }
         
-        .info-text {
-            font-size: 0.9rem; 
-            color: #666; 
-            margin-top: 10px; 
-            display: flex;
-            align-items: flex-start;
-            gap: 8px;
-        }
-        
-        .warning-text {
-            color: var(--danger);
-            font-weight: 600;
-        }
-        
-        .btn-calculate { 
-            width: 100%; 
-            padding: 18px; 
-            background: var(--primary); 
-            color: white; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1.2rem; 
-            font-weight: 700; 
-            cursor: pointer; 
-            transition: 0.3s; 
-            margin-top: 20px; 
-            box-shadow: 0 4px 15px rgba(0,104,56,0.3); 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-        
-        .btn-calculate:hover { 
-            background: var(--primary-dark); 
-            transform: translateY(-2px); 
-        }
-        
-        .results-container { 
-            padding: 0 40px 40px 40px; 
-            display: none; 
-            animation: slideUp 0.6s ease-out; 
-        }
-        
-        @keyframes slideUp { 
-            from { opacity: 0; transform: translateY(30px); } 
-            to { opacity: 1; transform: translateY(0); } 
-        }
-        
-        .dashboard-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 40px; 
-        }
-        
-        .stat-card { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 10px; 
-            border: 1px solid var(--border); 
-            text-align: center; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
-            position: relative; 
-            overflow: hidden; 
-        }
-        
-        .stat-card::before { 
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 5px; 
-            background: var(--text-light); 
-        }
-        
-        .stat-card.good::before { 
-            background: var(--primary); 
-        }
-        
-        .stat-card.bad::before { 
-            background: var(--danger); 
-        }
-        
-        .stat-card.warning::before {
-            background: var(--warning);
-        }
-        
-        .stat-value { 
-            font-size: 2rem; 
-            font-weight: 800; 
-            margin: 10px 0; 
-            color: var(--primary); 
-        }
-        
-        .stat-label { 
-            font-size: 0.9rem; 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            color: #888; 
-            font-weight: 600; 
-        }
-        
-        .stat-sub { 
-            font-size: 0.85rem; 
-            color: #666; 
-            font-style: italic; 
-        }
-        
-        .audit-wrapper { 
-            overflow-x: auto; 
-            margin-bottom: 40px; 
-            border: 1px solid var(--border);
-            border-radius: 8px;
-        }
-        
-        .audit-table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            min-width: 800px; 
-        }
-        
-        .audit-table th { 
-            background: #f0f2f5; 
-            padding: 15px; 
-            text-align: left; 
-            font-weight: 700; 
-            color: var(--text-dark); 
-            border-bottom: 2px solid #ddd; 
-        }
-        
-        .audit-table td { 
-            padding: 15px; 
-            border-bottom: 1px solid var(--border); 
-            vertical-align: top; 
-        }
-        
-        .score-box { 
-            display: inline-block; 
-            padding: 5px 10px; 
-            border-radius: 20px; 
-            font-weight: 700; 
-            font-size: 0.9rem; 
-            min-width: 60px; 
-            text-align: center; 
-        }
-        
-        .score-high { 
-            background: rgba(0, 104, 56, 0.1); 
-            color: var(--primary); 
-        }
-        
-        .score-low { 
-            background: rgba(231, 76, 60, 0.1); 
-            color: var(--danger); 
-        }
-        
-        .score-medium {
-            background: rgba(241, 196, 15, 0.1);
-            color: var(--accent-dark);
-        }
-        
-        .std-ref { 
-            display: block; 
-            font-size: 0.8rem; 
-            color: #7f8c8d; 
-            margin-top: 5px; 
-            background: #f8f9fa; 
-            padding: 4px 8px; 
-            border-radius: 4px; 
-            width: fit-content; 
-        }
-        
-        .std-ref i { 
-            color: var(--accent); 
-            margin-right: 5px; 
-        }
-        
-        .chart-section { 
-            display: flex; 
-            gap: 40px; 
-            flex-wrap: wrap; 
-            margin-bottom: 40px; 
-            align-items: center; 
-            justify-content: center; 
-        }
-        
-        .chart-box { 
-            flex: 1; 
-            min-width: 300px; 
-            max-width: 500px; 
-        }
-        
-        .chart-legend { 
-            flex: 1; 
-            min-width: 300px; 
-            background: var(--gray-light); 
-            padding: 25px; 
-            border-radius: 10px; 
-        }
-        
-        .legend-item { 
-            margin-bottom: 15px; 
-            display: flex; 
-            align-items: center; 
-            gap: 10px; 
-        }
-        
-        .dot { 
-            width: 12px; 
-            height: 12px; 
-            border-radius: 50%; 
-            display: inline-block; 
-        }
-        
-        .pricing-comparison {
-            margin: 40px 0;
-            overflow-x: auto;
-        }
-        
-        .pricing-table {
-            width: 100%;
-            border-collapse: collapse;
-            min-width: 800px;
-        }
-        
-        .pricing-table th {
-            background: var(--primary-light);
-            padding: 15px;
-            text-align: center;
-            font-weight: 700;
-            color: var(--text-dark);
-            border: 1px solid var(--border);
-        }
-        
-        .pricing-table td {
-            padding: 15px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-        
-        .pricing-table .highlight {
-            background-color: rgba(0, 104, 56, 0.05);
-            font-weight: 600;
-        }
-        
-        .roi-details {
-            background: var(--primary-light);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
-        
-        .roi-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 15px 0;
-        }
-        
-        .roi-table th, .roi-table td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .roi-table th {
-            background: rgba(0,0,0,0.03);
-            font-weight: 600;
-        }
-        
-        .formula {
+        .spec-item {
             background: white;
             padding: 15px;
             border-radius: 6px;
-            margin: 15px 0;
-            border-left: 4px solid var(--accent);
-            font-family: monospace;
+            border: 1px solid var(--border);
         }
         
-        .lead-gen { 
-            background: var(--primary-dark); 
-            color: white; 
-            padding: 40px; 
-            text-align: center; 
-            border-radius: 10px; 
-            margin-top: 40px;
+        .spec-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--primary);
         }
         
-        .lead-gen h3 { 
-            font-size: 1.8rem; 
-            margin-bottom: 10px; 
+        .switch-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            margin: 20px 0;
         }
         
-        .lead-inputs { 
-            display: flex; 
-            gap: 10px; 
-            justify-content: center; 
-            flex-wrap: wrap; 
-            margin-top: 20px; 
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
         }
         
-        .lead-inputs input { 
-            padding: 15px; 
-            border-radius: 6px; 
-            border: none; 
-            width: 250px; 
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
         }
         
-        .btn-download { 
-            background: var(--accent); 
-            color: white; 
-            padding: 15px 30px; 
-            border: none; 
-            border-radius: 6px; 
-            font-weight: 800; 
-            cursor: pointer; 
-            text-transform: uppercase; 
-            transition: 0.3s; 
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
         }
         
-        .btn-download:hover { 
-            background: var(--accent-dark); 
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
         }
         
-        .tooltip { 
-            position: relative; 
-            display: inline-block; 
-            cursor: help; 
-            color: var(--primary); 
-            margin-left: 5px; 
+        input:checked + .slider {
+            background-color: var(--ecosystem);
         }
         
-        .tooltip .tooltiptext { 
-            visibility: hidden; 
-            width: 250px; 
-            background-color: #333; 
-            color: #fff; 
-            text-align: left; 
-            border-radius: 6px; 
-            padding: 10px; 
-            position: absolute; 
-            z-index: 1; 
-            bottom: 125%; 
-            left: 50%; 
-            margin-left: -125px; 
-            opacity: 0; 
-            transition: opacity 0.3s; 
-            font-size: 0.85rem; 
-            font-weight: normal; 
-            line-height: 1.4; 
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); 
+        input:checked + .slider:before {
+            transform: translateX(26px);
         }
         
-        .tooltip:hover .tooltiptext { 
-            visibility: visible; 
-            opacity: 1; 
+        .slider.round {
+            border-radius: 34px;
         }
         
-        .hidden { 
-            display: none; 
-        }
-        
-        .text-center {
-            text-align: center;
+        .slider.round:before {
+            border-radius: 50%;
         }
         
         .alert-box {
@@ -559,14 +291,8 @@
             border-radius: 6px;
             margin: 20px 0;
             display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .alert-danger {
-            background-color: var(--danger-light);
-            border-left: 4px solid var(--danger);
-            color: var(--text-dark);
+            align-items: flex-start;
+            gap: 15px;
         }
         
         .alert-warning {
@@ -577,44 +303,111 @@
         
         .alert-info {
             background-color: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid #3498db;
+            border-left: 4px solid var(--ecosystem);
             color: var(--text-dark);
         }
         
-        .material-comparison {
+        .btn-primary { 
+            padding: 15px 30px; 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            cursor: pointer; 
+            transition: 0.3s; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,104,56,0.3); 
+        }
+        
+        .btn-primary:hover { 
+            background: var(--primary-dark); 
+            transform: translateY(-2px); 
+        }
+        
+        .comparison-chart {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
             margin: 30px 0;
         }
         
-        .material-card {
+        .chart-container {
             background: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            padding: 25px;
+            border-radius: 10px;
             border: 1px solid var(--border);
         }
         
-        .material-card h4 {
+        .efficiency-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .metric-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            text-align: center;
+        }
+        
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
             color: var(--primary);
-            margin-bottom: 15px;
-            border-bottom: 2px solid var(--primary-light);
-            padding-bottom: 10px;
+            margin: 10px 0;
         }
         
-        .material-props {
-            list-style: none;
+        .quotation-container {
+            background: white;
+            border-radius: 10px;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
         }
         
-        .material-props li {
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
+        .quote-header {
+            background: var(--primary-light);
+            padding: 25px;
+            border-bottom: 1px solid var(--border);
         }
         
-        .material-props .prop-name {
-            font-weight: 600;
+        .quote-body {
+            padding: 30px;
+        }
+        
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .price-table th {
+            background: #f8f9fa;
+            padding: 15px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--text-dark);
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .price-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .total-row {
+            background: var(--primary-light);
+            font-weight: 800;
+            font-size: 1.1rem;
         }
         
         @media (max-width: 768px) {
@@ -626,1309 +419,881 @@
                 flex-direction: column;
             }
             
+            .config-wizard, .comparison-chart {
+                grid-template-columns: 1fr;
+            }
+            
             .input-row {
                 flex-direction: column;
-            }
-            
-            .chart-section {
-                flex-direction: column;
-            }
-            
-            .lead-inputs {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .lead-inputs input {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .material-comparison {
-                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <div class="header">
-        <span class="badge-pro">Báo cáo Thẩm định Chuyên sâu</span>
-        <h1>LOGIC TÍNH TOÁN HIỆU QUẢ NĂNG LƯỢNG, PHÂN TÍCH TÀI CHÍNH VÀ CHIẾN LƯỢC KỸ THUẬT</h1>
-        <p>Phân tích chuyên sâu dựa trên dữ liệu giá thành 2025, tích hợp yếu tố kỹ thuật thực tế và mô hình tài chính đa kịch bản</p>
-    </div>
-
-    <div class="tabs">
-        <button class="tab-btn active" onclick="switchMode('scenario')">
-            <i class="fas fa-chart-line fa-lg"></i> PHÂN TÍCH KỊCH BẢN
-        </button>
-        <button class="tab-btn" onclick="switchMode('technical')">
-            <i class="fas fa-cogs fa-lg"></i> THÔNG SỐ KỸ THUẬT
-        </button>
-        <button class="tab-btn" onclick="switchMode('financial')">
-            <i class="fas fa-calculator fa-lg"></i> MÔ HÌNH TÀI CHÍNH
-        </button>
-        <button class="tab-btn" onclick="switchMode('hybrid')">
-            <i class="fas fa-puzzle-piece fa-lg"></i> GIẢI PHÁP LAI GHÉP
-        </button>
-    </div>
-
-    <!-- PHÂN TÍCH KỊCH BẢN -->
-    <div id="input-scenario" class="content-section">
-        <div class="section-title">
-            <i class="fas fa-chart-line"></i> 1. THIẾT LẬP KỊCH BẢN PHÂN TÍCH
-        </div>
-        <div class="input-group">
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Loại công trình</label>
-                    <select id="projectType" class="form-control" onchange="updateScenario()">
-                        <option value="warehouse">Nhà xưởng thông thường (May mặc/Điện tử)</option>
-                        <option value="cold_storage">Kho bảo quản thực phẩm mát (5°C)</option>
-                        <option value="cold_storage_deep">Kho đông lạnh sâu (-20°C)</option>
-                        <option value="cleanroom">Phòng sạch (Dược phẩm/Điện tử)</option>
-                    </select>
-                </div>
-
-                <div class="input-field">
-                    <label>Diện tích vách bao che (m²)</label>
-                    <input type="number" id="area" class="form-control" value="2000" min="100">
-                </div>
-
-                <div class="input-field">
-                    <label>Vùng khí hậu</label>
-                    <select id="climateZone" class="form-control" onchange="updateScenario()">
-                        <option value="north">Miền Bắc (Hà Nội)</option>
-                        <option value="south">Miền Nam (TP.HCM)</option>
-                    </select>
+    <div class="container">
+        <!-- HEADER VỚI THƯƠNG HIỆU 3CELECTRIC -->
+        <div class="brand-header">
+            <div class="brand-logo-container">
+                <div>
+                    <div style="font-size: 0.8rem; opacity: 0.8; margin-bottom: 5px;">MEMBER OF</div>
+                    <h1>3CELECTRIC GROUP</h1>
+                    <div class="tagline">Hệ sinh thái công nghiệp xanh - Chuyển đổi số toàn diện</div>
                 </div>
             </div>
-            
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Yêu cầu PCCC</label>
-                    <select id="pcccRequirement" class="form-control" onchange="updatePCCCRecommendation()">
-                        <option value="none">Không yêu cầu đặc biệt</option>
-                        <option value="ei30">EI30 (30 phút chịu lửa)</option>
-                        <option value="ei60">EI60 (60 phút chịu lửa)</option>
-                        <option value="ei90">EI90 (90 phút chịu lửa)</option>
-                    </select>
-                </div>
-                
-                <div class="input-field">
-                    <label>Giá điện (VNĐ/kWh)</label>
-                    <input type="number" id="elecPrice" class="form-control" value="2500" min="1000">
-                </div>
-                
-                <div class="input-field">
-                    <label>Thời gian vận hành (giờ/ngày)</label>
-                    <input type="number" id="operatingHours" class="form-control" value="10" min="1" max="24" onchange="updateScenario()">
-                </div>
-            </div>
-        </div>
-
-        <div class="section-title">
-            <i class="fas fa-balance-scale"></i> 2. LỰA CHỌN VẬT LIỆU SO SÁNH
-        </div>
-        <div class="input-group">
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Giải pháp so sánh</label>
-                    <select id="comparisonMaterial" class="form-control" onchange="updateMaterialDetails()">
-                        <option value="mw_50_80">Panel Bông khoáng 50mm (80kg/m³)</option>
-                        <option value="mw_50_100">Panel Bông khoáng 50mm (100kg/m³)</option>
-                        <option value="mw_75_100">Panel Bông khoáng 75mm (100kg/m³)</option>
-                        <option value="mw_100_100">Panel Bông khoáng 100mm (100kg/m³)</option>
-                        <option value="brick">Tường gạch 220mm truyền thống</option>
-                    </select>
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Hệ thống sẽ so sánh với <b>Panel PU 3C Green 50mm (40kg/m³)</b>.
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Độ dày tôn</label>
-                    <select id="steelThickness" class="form-control">
-                        <option value="0.35">0.35mm (Tiết kiệm)</option>
-                        <option value="0.4">0.40mm (Khuyến nghị)</option>
-                    </select>
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Với chiều cao vách > 6m, khuyến nghị bắt buộc dùng tôn 0.40mm.
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div id="pccc-warning" class="alert-box alert-warning hidden">
-            <i class="fas fa-exclamation-triangle"></i>
             <div>
-                <strong>LƯU Ý PCCC:</strong> Panel PU tiêu chuẩn khó đạt được các chỉ số EI cao. Đối với yêu cầu PCCC này, Panel Bông khoáng là lựa chọn phù hợp hơn.
+                <div class="brand-badge">Hệ thống định giá thông minh</div>
+                <div class="ecosystem-tag" style="margin-top: 10px;">Tích hợp Oval Ecosystem</div>
             </div>
         </div>
 
-        <div class="alert-box alert-info">
-            <i class="fas fa-lightbulb"></i>
-            <div>
-                <strong>Phân tích kỹ thuật:</strong> Panel PU 3C Green (40kg/m³) có hệ số dẫn nhiệt λ = 0.022 W/m.K, trong khi Panel Bông khoáng có λ = 0.038 W/m.K. Để đạt cùng hiệu suất cách nhiệt với PU 50mm, cần sử dụng Bông khoáng 85-90mm.
-            </div>
+        <!-- TABS HỆ THỐNG CPQ -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('config')" id="tab-config">
+                <i class="fas fa-cogs fa-lg"></i> CẤU HÌNH PANEL
+            </button>
+            <button class="tab-btn" onclick="switchTab('analysis')" id="tab-analysis">
+                <i class="fas fa-chart-bar fa-lg"></i> PHÂN TÍCH HIỆU QUẢ
+            </button>
+            <button class="tab-btn" onclick="switchTab('quote')" id="tab-quote">
+                <i class="fas fa-file-invoice-dollar fa-lg"></i> BÁO GIÁ & HỢP ĐỒNG
+            </button>
         </div>
 
-        <button class="btn-calculate" onclick="runAnalysis()">
-            <i class="fas fa-search-dollar"></i> CHẠY PHÂN TÍCH CHUYÊN SÂU
-        </button>
-    </div>
-
-    <!-- THÔNG SỐ KỸ THUẬT -->
-    <div id="input-technical" class="content-section hidden">
-        <div class="section-title">
-            <i class="fas fa-cogs"></i> THÔNG SỐ KỸ THUẬT CHI TIẾT
-        </div>
-        
-        <div class="alert-box alert-info">
-            <i class="fas fa-info-circle"></i>
-            <div>
-                <strong>Cơ sở lý thuyết:</strong> Dựa trên nguyên lý nhiệt động lực học và dữ liệu thực nghiệm từ phòng thí nghiệm ASTM.
-            </div>
-        </div>
-        
-        <div class="input-group">
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Hệ số dẫn nhiệt Panel PU (W/m.K)</label>
-                    <input type="number" id="puLambda" class="form-control" value="0.022" min="0.01" max="0.05" step="0.001">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Giá trị thực tế cho PU tỷ trọng 40kg/m³: 0.019-0.022 W/m.K
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Hệ số dẫn nhiệt Bông khoáng (W/m.K)</label>
-                    <input type="number" id="mwLambda" class="form-control" value="0.038" min="0.03" max="0.05" step="0.001">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Giá trị thực tế cho Bông khoáng 100kg/m³: 0.034-0.040 W/m.K
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Hệ số dẫn nhiệt Gạch (W/m.K)</label>
-                    <input type="number" id="brickLambda" class="form-control" value="0.8" min="0.5" max="1.2" step="0.1">
-                </div>
+        <!-- TAB 1: CẤU HÌNH PANEL -->
+        <div id="tab-config-content" class="content-section">
+            <div class="section-title">
+                <i class="fas fa-sliders-h"></i> 1. CẤU HÌNH SẢN PHẨM PANEL
             </div>
             
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Hệ số hiệu chỉnh lắp đặt</label>
-                    <input type="number" id="installFactor" class="form-control" value="1.15" min="1.0" max="1.3" step="0.05">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Bù trừ cho cầu nhiệt và khe hở thi công (thực tế cao hơn 15-20% so với lý thuyết)
+            <div class="config-wizard">
+                <div class="config-step">
+                    <h3><i class="fas fa-layer-group"></i> Chọn Loại Panel</h3>
+                    
+                    <div class="input-group">
+                        <label>Vật liệu lõi cách nhiệt</label>
+                        <select id="coreType" class="form-control" onchange="updateMaterialSpecs()">
+                            <option value="PU">Panel PU Cách Nhiệt Cao Cấp</option>
+                            <option value="ROCKWOOL">Panel Bông Khoáng Chống Cháy</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label>Tỷ trọng lõi (kg/m³)</label>
+                        <select id="density" class="form-control" onchange="updateMaterialSpecs()">
+                            <option value="40">40 kg/m³ (PU Tiêu chuẩn)</option>
+                            <option value="80">80 kg/m³ (Bông khoáng phổ thông)</option>
+                            <option value="100">100 kg/m³ (Bông khoáng cao cấp)</option>
+                        </select>
                     </div>
                 </div>
                 
-                <div class="input-field">
-                    <label>Hệ số suy giảm PU (%/năm)</label>
-                    <input type="number" id="puDegradation" class="form-control" value="0.5" min="0" max="2" step="0.1">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> PU: Suy giảm chậm do khuếch tán khí (0.5%/năm)
+                <div class="config-step">
+                    <h3><i class="fas fa-ruler-combined"></i> Thông Số Kỹ Thuật</h3>
+                    
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label>Độ dày panel (mm)</label>
+                            <select id="thickness" class="form-control" onchange="updateMaterialSpecs()">
+                                <option value="50">50 mm</option>
+                                <option value="75">75 mm</option>
+                                <option value="100">100 mm</option>
+                            </select>
+                        </div>
+                        
+                        <div class="input-field">
+                            <label>Độ dày tôn (mm)</label>
+                            <select id="steelThickness" class="form-control" onchange="checkTechnicalConstraints()">
+                                <option value="0.35">0.35 mm</option>
+                                <option value="0.40">0.40 mm (Khuyến nghị)</option>
+                                <option value="0.45">0.45 mm</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Hệ số suy giảm Bông khoáng (%/năm)</label>
-                    <input type="number" id="mwDegradation" class="form-control" value="2.0" min="0" max="5" step="0.5">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Bông khoáng: Suy giảm nhanh hơn do hút ẩm (2-3%/năm trong môi trường ẩm)
+                    
+                    <div class="input-row">
+                        <div class="input-field">
+                            <label>Chiều dài tấm (mm)</label>
+                            <input type="number" id="length" class="form-control" value="3000" min="500" max="12000" step="100" onchange="checkTechnicalConstraints()">
+                        </div>
+                        
+                        <div class="input-field">
+                            <label>Chiều rộng tấm (mm)</label>
+                            <input type="number" id="width" class="form-control" value="1000" min="500" max="1500" step="50">
+                        </div>
                     </div>
-                </div>
-            </div>
-            
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Chi phí gia cố kết cấu Bông khoáng (VNĐ/m²)</label>
-                    <input type="number" id="structuralPenalty" class="form-control" value="40000" min="0" max="100000" step="5000">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Bông khoáng nặng hơn PU 2-2.5 lần, cần khung xương chắc chắn hơn
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Hiệu suất máy lạnh (COP)</label>
-                    <input type="number" id="cop" class="form-control" value="3.0" min="1.5" max="5.0" step="0.1">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Máy lạnh công nghiệp trung bình: COP = 3.0
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn-calculate" onclick="runTechnicalAnalysis()">
-            <i class="fas fa-cogs"></i> PHÂN TÍCH THÔNG SỐ KỸ THUẬT
-        </button>
-    </div>
-
-    <!-- MÔ HÌNH TÀI CHÍNH -->
-    <div id="input-financial" class="content-section hidden">
-        <div class="section-title">
-            <i class="fas fa-calculator"></i> MÔ HÌNH HÓA TÀI CHÍNH
-        </div>
-        
-        <div class="alert-box alert-info">
-            <i class="fas fa-lightbulb"></i>
-            <div>
-                <strong>Phương pháp:</strong> Phân tích dòng tiền chiết khấu (DCF) và thời gian hoàn vốn (Payback Period) với các kịch bản khác nhau.
-            </div>
-        </div>
-        
-        <div class="input-group">
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Thời gian phân tích (năm)</label>
-                    <input type="number" id="analysisPeriod" class="form-control" value="10" min="5" max="20">
-                </div>
-                
-                <div class="input-field">
-                    <label>Tỷ lệ chiết khấu (%)</label>
-                    <input type="number" id="discountRate" class="form-control" value="10" min="5" max="20" step="0.5">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Tỷ lệ chiết khấu phản ánh chi phí cơ hội của vốn
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Tỷ lệ tăng giá điện (%/năm)</label>
-                    <input type="number" id="elecPriceIncrease" class="form-control" value="5" min="0" max="15" step="0.5">
-                </div>
-            </div>
-            
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Chi phí bảo trì Panel PU (%/năm)</label>
-                    <input type="number" id="puMaintenance" class="form-control" value="0.5" min="0" max="5" step="0.1">
-                </div>
-                
-                <div class="input-field">
-                    <label>Chi phí bảo trì Bông khoáng (%/năm)</label>
-                    <input type="number" id="mwMaintenance" class="form-control" value="1.5" min="0" max="5" step="0.1">
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Bông khoáng cần bảo trì nhiều hơn do nguy cơ hút ẩm và xệ vách
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Chi phí thay thế sau tuổi thọ (năm)</label>
-                    <input type="number" id="replacementYear" class="form-control" value="15" min="5" max="25">
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn-calculate" onclick="runFinancialAnalysis()">
-            <i class="fas fa-chart-line"></i> PHÂN TÍCH TÀI CHÍNH CHI TIẾT
-        </button>
-        
-        <div id="financial-results" class="results-container">
-            <!-- Kết quả phân tích tài chính sẽ được hiển thị ở đây -->
-        </div>
-    </div>
-
-    <!-- GIẢI PHÁP LAI GHÉP -->
-    <div id="input-hybrid" class="content-section hidden">
-        <div class="section-title">
-            <i class="fas fa-puzzle-piece"></i> GIẢI PHÁP LAI GHÉP THÔNG MINH
-        </div>
-        
-        <div class="alert-box alert-info">
-            <i class="fas fa-lightbulb"></i>
-            <div>
-                <strong>Chiến lược tối ưu:</strong> Kết hợp ưu điểm của cả Panel PU và Panel Bông khoáng trong cùng một công trình.
-            </div>
-        </div>
-        
-        <div class="input-group">
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Vách bao che ngoài</label>
-                    <select id="externalWall" class="form-control">
-                        <option value="pu_50">Panel PU 50mm (Cách nhiệt tối ưu, chống thấm)</option>
-                        <option value="pu_75">Panel PU 75mm (Cách nhiệt cao cấp)</option>
-                    </select>
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Vách ngoài ít khi yêu cầu EI cao, tập trung vào cách nhiệt và độ bền thời tiết
-                    </div>
-                </div>
-                
-                <div class="input-field">
-                    <label>Vách ngăn chia bên trong</label>
-                    <select id="internalWall" class="form-control">
-                        <option value="mw_50_100">Panel Bông khoáng 50mm 100kg/m³ (PCCC, cách âm)</option>
-                        <option value="mw_75_100">Panel Bông khoáng 75mm 100kg/m³ (PCCC cao cấp)</option>
-                    </select>
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Vách ngăn cần đạt chuẩn PCCC (EI) và cách âm giữa các phân xưởng
+                    
+                    <div class="input-group">
+                        <label>Số lượng tấm</label>
+                        <input type="number" id="quantity" class="form-control" value="100" min="1" max="10000" step="1">
                     </div>
                 </div>
             </div>
             
-            <div class="input-row">
-                <div class="input-field">
-                    <label>Trần thả</label>
-                    <select id="ceiling" class="form-control">
-                        <option value="pu_50">Panel PU 50mm (Nhẹ, an toàn kết cấu)</option>
-                        <option value="pu_75">Panel PU 75mm (Cách nhiệt mái tốt hơn)</option>
-                    </select>
-                    <div class="info-text">
-                        <i class="fas fa-info-circle"></i> Trần thả sử dụng PU vì nhẹ, an toàn cho kết cấu treo và cách nhiệt tốt cho mái
+            <div class="specs-grid" id="specsDisplay">
+                <div class="spec-item">
+                    <div class="spec-label">Hệ số dẫn nhiệt (λ)</div>
+                    <div class="spec-value" id="lambdaValue">0.022 W/m.K</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Nhiệt trở (R)</div>
+                    <div class="spec-value" id="rValue">2.27 m².K/W</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Cấp chịu lửa</div>
+                    <div class="spec-value" id="fireRating">B2/B3</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Tỷ trọng</div>
+                    <div class="spec-value" id="densityValue">40 kg/m³</div>
+                </div>
+            </div>
+            
+            <!-- TÍCH HỢP HỆ SINH THÁI OVAL -->
+            <div class="section-title">
+                <i class="fas fa-puzzle-piece"></i> 2. TÍCH HỢP HỆ SINH THÁI OVAL
+            </div>
+            
+            <div class="switch-container">
+                <div>
+                    <h4 style="margin-bottom: 5px;">Tích hợp hệ thống điện Oval</h4>
+                    <p style="font-size: 0.9rem; color: var(--text-light);">Gia công âm tường với ống gen và phụ kiện điện Oval</p>
+                </div>
+                <label class="switch">
+                    <input type="checkbox" id="ovalIntegration" onchange="toggleOvalIntegration()">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            
+            <div id="ovalOptions" class="hidden" style="margin-top: 20px;">
+                <div class="input-row">
+                    <div class="input-field">
+                        <label>Số lượng ổ cắm Oval/tấm</label>
+                        <select id="ovalSockets" class="form-control">
+                            <option value="0">Không tích hợp</option>
+                            <option value="1">1 ổ cắm</option>
+                            <option value="2">2 ổ cắm</option>
+                        </select>
+                    </div>
+                    
+                    <div class="input-field">
+                        <label>Số lượng công tắc Oval/tấm</label>
+                        <select id="ovalSwitches" class="form-control">
+                            <option value="0">Không tích hợp</option>
+                            <option value="1">1 công tắc</option>
+                            <option value="2">2 công tắc</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- THÔNG TIN KHÁCH HÀNG -->
+            <div style="background: var(--primary-light); padding: 25px; border-radius: 10px; margin: 30px 0;">
+                <h3 style="color: var(--primary); margin-bottom: 15px;">
+                    <i class="fas fa-user-tie"></i> Thông Tin Khách Hàng
+                </h3>
+                
+                <div class="input-row">
+                    <div class="input-field">
+                        <label>Tên khách hàng/công ty</label>
+                        <input type="text" id="customerName" class="form-control" placeholder="Nhập tên khách hàng" value="Công Ty ABC">
+                    </div>
+                    
+                    <div class="input-field">
+                        <label>Tên dự án</label>
+                        <input type="text" id="projectName" class="form-control" placeholder="Nhập tên dự án" value="Nhà xưởng Sản xuất">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- CẢNH BÁO KỸ THUẬT -->
+            <div id="technicalWarnings"></div>
+            
+            <!-- NÚT TÍNH TOÁN -->
+            <button class="btn-primary" onclick="calculateQuotation()">
+                <i class="fas fa-calculator"></i> TÍNH TOÁN BÁO GIÁ
+            </button>
+        </div>
+
+        <!-- TAB 2: PHÂN TÍCH HIỆU QUẢ -->
+        <div id="tab-analysis-content" class="content-section hidden">
+            <div class="section-title">
+                <i class="fas fa-chart-line"></i> PHÂN TÍCH HIỆU QUẢ CÁCH NHIỆT
+            </div>
+            
+            <div class="alert-box alert-info">
+                <i class="fas fa-leaf"></i>
+                <div>
+                    <strong>Thương hiệu Xanh 3CGreen:</strong> Không tạo ra năng lượng, mà TIẾT KIỆM năng lượng. Mỗi m² panel của chúng tôi giúp giảm nhu cầu làm mát/sưởi ấm.
+                </div>
+            </div>
+            
+            <div class="comparison-chart">
+                <div class="chart-container">
+                    <h4>So sánh Hiệu suất Cách nhiệt</h4>
+                    <canvas id="insulationChart"></canvas>
+                </div>
+                
+                <div class="chart-container">
+                    <h4>Tiết kiệm Năng lượng Dự kiến</h4>
+                    <canvas id="savingsChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="section-title">
+                <i class="fas fa-calculator"></i> Chỉ số Hiệu quả Năng lượng
+            </div>
+            
+            <div class="efficiency-metrics">
+                <div class="metric-card">
+                    <div class="metric-label">Hệ số truyền nhiệt (U)</div>
+                    <div class="metric-value" id="analysisUValue">0.44 W/m²K</div>
+                    <div class="visual-label">Càng thấp càng tốt</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Nhiệt trở (R)</div>
+                    <div class="metric-value" id="analysisRValue">2.27 m²K/W</div>
+                    <div class="visual-label">Càng cao càng tốt</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Tiết kiệm điện/năm</div>
+                    <div class="metric-value" id="energySavings">15,420 kWh</div>
+                    <div class="visual-label">Cho 300m² vận hành 10h/ngày</div>
+                </div>
+                
+                <div class="metric-card">
+                    <div class="metric-label">Giảm CO₂/năm</div>
+                    <div class="metric-value" id="co2Reduction">7,710 kg</div>
+                    <div class="visual-label">Đóng góp môi trường</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: BÁO GIÁ & HỢP ĐỒNG -->
+        <div id="tab-quote-content" class="content-section hidden">
+            <div class="section-title">
+                <i class="fas fa-file-contract"></i> BÁO GIÁ CHÍNH THỨC
+            </div>
+            
+            <div class="quotation-container">
+                <div class="quote-header">
+                    <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap;">
+                        <div>
+                            <h2 style="color: var(--primary); margin-bottom: 5px;">BÁO GIÁ SẢN PHẨM</h2>
+                            <div id="quoteCustomer">Khách hàng: Công Ty ABC</div>
+                            <div id="quoteProject">Dự án: Nhà xưởng Sản xuất</div>
+                            <div style="font-size: 0.9rem; color: var(--text-light); margin-top: 5px;">
+                                Mã báo giá: <span id="quoteCode">3CG-2024-001</span> | Ngày: <span id="quoteDate">10/12/2024</span>
+                            </div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="brand-badge" style="margin-bottom: 10px;">3CGREEN PANEL</div>
+                            <div class="ecosystem-tag" id="ovalTag" style="background-color: #95a5a6;">Chưa tích hợp Oval</div>
+                        </div>
                     </div>
                 </div>
                 
-                <div class="input-field">
-                    <label>Tỷ lệ diện tích vách ngoài (%)</label>
-                    <input type="number" id="externalWallRatio" class="form-control" value="60" min="0" max="100">
-                </div>
-            </div>
-        </div>
-        
-        <button class="btn-calculate" onclick="runHybridAnalysis()">
-            <i class="fas fa-calculator"></i> TÍNH TOÁN GIẢI PHÁP LAI GHÉP
-        </button>
-        
-        <div id="hybrid-results" class="results-container">
-            <!-- Kết quả giải pháp lai ghép sẽ được hiển thị ở đây -->
-        </div>
-    </div>
-
-    <!-- KẾT QUẢ PHÂN TÍCH -->
-    <div id="results" class="results-container">
-        <h2 class="text-center">BÁO CÁO PHÂN TÍCH CHUYÊN SÂU: HIỆU QUẢ NĂNG LƯỢNG & TÀI CHÍNH</h2>
-        
-        <div class="alert-box alert-info">
-            <i class="fas fa-info-circle"></i>
-            <div>
-                <strong>Phương pháp đánh giá:</strong> Dựa trên dữ liệu giá thành 2025 của 3C Green, tích hợp các yếu tố kỹ thuật thực tế và mô hình tài chính đa kịch bản.
-            </div>
-        </div>
-        
-        <div class="dashboard-grid">
-            <div class="stat-card" id="card-roi">
-                <div class="stat-label">Thời Gian Hoàn Vốn</div>
-                <div class="stat-value" id="res-roi">0 năm</div>
-                <div class="stat-sub" id="res-roi-detail">Đầu tư bổ sung</div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-label">Tiết Kiệm Năng Lượng / Năm</div>
-                <div class="stat-value" id="res-energy">0 kWh</div>
-                <div class="stat-sub" id="res-money">0 VNĐ</div>
-            </div>
-            
-            <div class="stat-card">
-                <div class="stat-label">NPV (10 năm)</div>
-                <div class="stat-value" id="res-npv">0 VNĐ</div>
-                <div class="stat-sub">Giá trị hiện tại ròng</div>
-            </div>
-        </div>
-
-        <!-- PHÂN TÍCH KỊCH BẢN CHI TIẾT -->
-        <div class="section-title">
-            <i class="fas fa-chart-bar"></i> Phân Tích Kịch Bản Chi Tiết
-        </div>
-        
-        <div class="roi-details">
-            <h4>Kịch bản được chọn: <span id="scenario-name">Nhà xưởng thông thường</span></h4>
-            <div class="formula">
-                <strong>Công thức tính tổn thất nhiệt:</strong> Q = U × A × ΔT × t × K<sub>install</sub><br>
-                <strong>Trong đó:</strong><br>
-                - U: Hệ số truyền nhiệt (W/m².K) = 1 / R<br>
-                - R: Nhiệt trở (m².K/W) = d / λ<br>
-                - A: Diện tích bề mặt (m²)<br>
-                - ΔT: Chênh lệch nhiệt độ (K)<br>
-                - t: Thời gian vận hành (giờ)<br>
-                - K<sub>install</sub>: Hệ số hiệu chỉnh lắp đặt
-            </div>
-            
-            <table class="roi-table">
-                <thead>
-                    <tr>
-                        <th>Thông số</th>
-                        <th>Giải pháp so sánh</th>
-                        <th>Panel PU 3C Green</th>
-                        <th>Chênh lệch</th>
-                    </tr>
-                </thead>
-                <tbody id="scenario-details-table">
-                    <!-- Dữ liệu sẽ được điền bằng JavaScript -->
-                </tbody>
-            </table>
-            
-            <div id="scenario-calculation-details">
-                <!-- Chi tiết tính toán sẽ được điền bằng JavaScript -->
-            </div>
-        </div>
-
-        <!-- SO SÁNH VẬT LIỆU -->
-        <div class="section-title">
-            <i class="fas fa-balance-scale"></i> So Sánh Đặc Tính Vật Liệu
-        </div>
-        
-        <div class="material-comparison">
-            <div class="material-card">
-                <h4>Giải pháp so sánh</h4>
-                <ul class="material-props" id="comparison-material-props">
-                    <!-- Data will be populated by JavaScript -->
-                </ul>
-            </div>
-            
-            <div class="material-card">
-                <h4>Panel PU 3C Green</h4>
-                <ul class="material-props" id="pu-material-props">
-                    <!-- Data will be populated by JavaScript -->
-                </ul>
-            </div>
-        </div>
-
-        <!-- BIỂU ĐỒ SO SÁNH HIỆU SUẤT -->
-        <div class="chart-section">
-            <div class="chart-box">
-                <canvas id="performanceChart"></canvas>
-            </div>
-
-            <div class="chart-legend">
-                <h4 style="margin-top:0;">Giải thích biểu đồ:</h4>
-                <div class="legend-item">
-                    <span class="dot" style="background:rgba(231, 76, 60, 1)"></span>
-                    <div>
-                        <strong>Giải pháp so sánh:</strong>
-                        <div style="font-size:0.9rem; color:#666;">Hiệu suất thấp hơn, chi phí vận hành cao hơn.</div>
+                <div class="quote-body">
+                    <h4 style="margin-bottom: 15px;">Thông số kỹ thuật</h4>
+                    <div class="specs-grid">
+                        <div class="spec-item">
+                            <div class="spec-label">Loại panel</div>
+                            <div class="spec-value" id="quotePanelType">Panel PU 50mm</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Kích thước</div>
+                            <div class="spec-value" id="quoteDimensions">3000 × 1000 × 50 mm</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Số lượng</div>
+                            <div class="spec-value" id="quoteQuantity">100 tấm</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-label">Tổng diện tích</div>
+                            <div class="spec-value" id="quoteArea">300 m²</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 30px; margin-bottom: 15px;">Chi tiết báo giá</h4>
+                    <table class="price-table">
+                        <thead>
+                            <tr>
+                                <th>Hạng mục</th>
+                                <th>Đơn vị</th>
+                                <th>Số lượng</th>
+                                <th>Đơn giá (VNĐ)</th>
+                                <th>Thành tiền (VNĐ)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="quoteDetails">
+                            <tr>
+                                <td>Panel PU 50mm 40kg/m³</td>
+                                <td>m²</td>
+                                <td>300.00</td>
+                                <td>450,000</td>
+                                <td>135,000,000</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="total-row">
+                                <td colspan="4">TỔNG CỘNG (Chưa VAT)</td>
+                                <td id="quoteSubtotal">135,000,000</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4">Thuế VAT (10%)</td>
+                                <td id="quoteVAT">13,500,000</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td colspan="4">TỔNG CỘNG SAU THUẾ</td>
+                                <td id="quoteTotal">148,500,000</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    
+                    <div id="quoteWarnings" style="margin-top: 30px;">
+                        <div class="alert-box alert-warning">
+                            <i class="fas fa-weight-hanging"></i>
+                            <div>
+                                <strong>LƯU Ý THI CÔNG:</strong> Mỗi tấm nặng khoảng 42kg. Yêu cầu sử dụng xe nâng cho thi công.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
+                        <button class="btn-primary" onclick="generatePDF()">
+                            <i class="fas fa-file-pdf"></i> XUẤT PDF BÁO GIÁ
+                        </button>
+                        <button class="btn-primary" style="background: var(--accent);" onclick="printQuote()">
+                            <i class="fas fa-print"></i> IN BÁO GIÁ
+                        </button>
                     </div>
                 </div>
-
-                <div class="legend-item">
-                    <span class="dot" style="background:rgba(0, 104, 56, 1)"></span>
-                    <div>
-                        <strong>Panel PU 3C Green:</strong>
-                        <div style="font-size:0.9rem; color:#666;">Hiệu suất cao, tiết kiệm năng lượng tối ưu.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- PHÂN TÍCH ĐỘ NHẠY -->
-        <div class="section-title">
-            <i class="fas fa-chart-line"></i> Phân Tích Độ Nhạy Theo Giá Điện
-        </div>
-        
-        <div class="chart-section">
-            <div class="chart-box">
-                <canvas id="sensitivityChart"></canvas>
-            </div>
-
-            <div class="chart-legend">
-                <h4 style="margin-top:0;">Giải thích biểu đồ:</h4>
-                <div class="legend-item">
-                    <span class="dot" style="background:rgba(231, 76, 60, 1)"></span>
-                    <div>
-                        <strong>Giá điện thấp (1.500 VNĐ/kWh):</strong>
-                        <div style="font-size:0.9rem; color:#666;">Thời gian hoàn vốn dài hơn.</div>
-                    </div>
-                </div>
-
-                <div class="legend-item">
-                    <span class="dot" style="background:rgba(0, 104, 56, 1)"></span>
-                    <div>
-                        <strong>Giá điện cao (3.500 VNĐ/kWh):</strong>
-                        <div style="font-size:0.9rem; color:#666;">Thời gian hoàn vốn ngắn hơn.</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- ĐÁNH GIÁ RỦI RO VÀ KIẾN NGHỊ -->
-        <div class="section-title">
-            <i class="fas fa-exclamation-triangle"></i> Đánh giá Rủi ro & Kiến nghị Chiến lược
-        </div>
-        
-        <div class="input-group">
-            <div id="risk-assessment">
-                <!-- Risk assessment will be populated by JavaScript -->
-            </div>
-        </div>
-
-        <!-- FORM TẢI BÁO CÁO -->
-        <div class="lead-gen">
-            <h3><i class="fas fa-file-invoice-dollar"></i> BẠN CẦN BÁO CÁO CHUYÊN SÂU ĐỂ TRÌNH BAN LÃNH ĐẠO?</h3>
-            <p>Hệ thống đã tạo một file PDF 10 trang bao gồm: Phân tích kỹ thuật chi tiết, Mô hình tài chính đa kịch bản, và Đề xuất giải pháp tối ưu.</p>
-            <div class="lead-inputs">
-                <input type="text" placeholder="Họ và Tên">
-                <input type="text" placeholder="Tên Công Ty">
-                <input type="text" placeholder="Số điện thoại (Zalo)">
-                <button class="btn-download" onclick="alert('Báo cáo đang được gửi vào Zalo của bạn!')">TẢI BÁO CÁO CHUYÊN SÂU</button>
             </div>
         </div>
     </div>
-</div>
 
-<script>
-    // --- CƠ SỞ DỮ LIỆU VẬT LIỆU DỰA TRÊN BÁO CÁO THẨM ĐỊNH ---
-    const MATERIAL_DATA = {
-        // Panel PU 3C Green (dựa trên bảng giá 2025)
-        pu_50: { 
-            name: "Panel PU 50mm", 
-            lambda: 0.022, 
-            costPerM2: 438824,
-            density: 40,
-            fireRating: "B3",
-            maxTemp: 110,
-            lifespan: 20,
-            weight: 8, // kg/m2
-            description: "PU tỷ trọng cao 40kg/m³, Tôn mạ màu G500 ASTM A755",
-            rValue: 0.05 / 0.022 // d/lambda
-        },
-        pu_75: { 
-            name: "Panel PU 75mm", 
-            lambda: 0.022, 
-            costPerM2: 531765,
-            density: 40,
-            fireRating: "B3",
-            maxTemp: 110,
-            lifespan: 20,
-            weight: 12, // kg/m2
-            description: "PU tỷ trọng cao 40kg/m³, Tôn mạ màu G500 ASTM A755",
-            rValue: 0.075 / 0.022
-        },
+    <script>
+        // =============================================
+        // KHỞI TẠO HỆ THỐNG
+        // =============================================
         
-        // Panel Bông khoáng (dựa trên bảng giá 2025)
-        mw_50_80: { 
-            name: "Panel Bông khoáng 50mm (80kg/m³)", 
-            lambda: 0.038, 
-            costPerM2: 330588,
-            density: 80,
-            fireRating: "A1",
-            maxTemp: 600,
-            lifespan: 15,
-            weight: 12, // kg/m2
-            description: "Bông khoáng tỷ trọng 80kg/m³, chống cháy A1",
-            rValue: 0.05 / 0.038
-        },
-        mw_50_100: { 
-            name: "Panel Bông khoáng 50mm (100kg/m³)", 
-            lambda: 0.038, 
-            costPerM2: 348235,
-            density: 100,
-            fireRating: "A1",
-            maxTemp: 600,
-            lifespan: 15,
-            weight: 14, // kg/m2
-            description: "Bông khoáng tỷ trọng 100kg/m³, chống cháy A1",
-            rValue: 0.05 / 0.038
-        },
-        mw_75_100: { 
-            name: "Panel Bông khoáng 75mm (100kg/m³)", 
-            lambda: 0.038, 
-            costPerM2: 397647,
-            density: 100,
-            fireRating: "A1",
-            maxTemp: 600,
-            lifespan: 15,
-            weight: 18, // kg/m2
-            description: "Bông khoáng tỷ trọng 100kg/m³, chống cháy A1",
-            rValue: 0.075 / 0.038
-        },
-        mw_100_100: { 
-            name: "Panel Bông khoáng 100mm (100kg/m³)", 
-            lambda: 0.038, 
-            costPerM2: 463529,
-            density: 100,
-            fireRating: "A1",
-            maxTemp: 600,
-            lifespan: 15,
-            weight: 22, // kg/m2
-            description: "Bông khoáng tỷ trọng 100kg/m³, chống cháy A1",
-            rValue: 0.1 / 0.038
-        },
-        
-        // Tường gạch truyền thống
-        brick: { 
-            name: "Tường gạch 220mm", 
-            lambda: 0.8, 
-            costPerM2: 850000,
-            density: 1800,
-            fireRating: "A1",
-            maxTemp: 1000,
-            lifespan: 50,
-            weight: 400, // kg/m2
-            description: "Truyền thống, nặng, cách nhiệt kém",
-            rValue: 0.22 / 0.8
-        }
-    };
-
-    // --- DỮ LIỆU KỊCH BẢN ---
-    const SCENARIO_DATA = {
-        warehouse: {
-            name: "Nhà xưởng thông thường (May mặc/Điện tử)",
-            tempInside: 24,
-            tempOutsideNorth: 32,
-            tempOutsideSouth: 32,
-            operatingHours: 10,
-            daysPerYear: 312, // 26 ngày/tháng * 12 tháng
-            cop: 3.0,
-            description: "Ứng dụng làm mát thông thường, chênh lệch nhiệt độ thấp"
-        },
-        cold_storage: {
-            name: "Kho bảo quản thực phẩm mát (5°C)",
-            tempInside: 5,
-            tempOutsideNorth: 30,
-            tempOutsideSouth: 30,
-            operatingHours: 24,
-            daysPerYear: 365,
-            cop: 2.5, // Giảm COP khi nhiệt độ thấp
-            description: "Kho mát, chênh lệch nhiệt độ trung bình"
-        },
-        cold_storage_deep: {
-            name: "Kho đông lạnh sâu (-20°C)",
-            tempInside: -20,
-            tempOutsideNorth: 30,
-            tempOutsideSouth: 30,
-            operatingHours: 24,
-            daysPerYear: 365,
-            cop: 2.0, // Giảm COP đáng kể khi nhiệt độ rất thấp
-            description: "Kho đông lạnh sâu, chênh lệch nhiệt độ lớn"
-        },
-        cleanroom: {
-            name: "Phòng sạch (Dược phẩm/Điện tử)",
-            tempInside: 22,
-            tempOutsideNorth: 32,
-            tempOutsideSouth: 32,
-            operatingHours: 24,
-            daysPerYear: 365,
-            cop: 3.0,
-            description: "Phòng sạch yêu cầu kiểm soát nhiệt độ và độ ẩm nghiêm ngặt"
-        }
-    };
-
-    // --- CÁC HÀM CẬP NHẬT GIAO DIỆN ---
-    function updateScenario() {
-        const projectType = document.getElementById('projectType').value;
-        const climateZone = document.getElementById('climateZone').value;
-        const scenario = SCENARIO_DATA[projectType];
-        
-        // Cập nhật thời gian vận hành
-        document.getElementById('operatingHours').value = scenario.operatingHours;
-        
-        // Hiển thị thông tin kịch bản
-        document.getElementById('scenario-name').textContent = scenario.name;
-    }
-
-    function updatePCCCRecommendation() {
-        const pcccRequirement = document.getElementById('pcccRequirement').value;
-        const warningElement = document.getElementById('pccc-warning');
-        
-        // Hiển thị cảnh báo nếu yêu cầu PCCC cao
-        if (pcccRequirement !== 'none') {
-            warningElement.classList.remove('hidden');
-        } else {
-            warningElement.classList.add('hidden');
-        }
-    }
-
-    function updateMaterialDetails() {
-        const material = document.getElementById('comparisonMaterial').value;
-        const materialData = MATERIAL_DATA[material];
-        
-        // Cập nhật thông tin vật liệu so sánh
-        document.getElementById('comparison-material-props').innerHTML = `
-            <li><span class="prop-name">Hệ số dẫn nhiệt:</span> <span>${materialData.lambda} W/m.K</span></li>
-            <li><span class="prop-name">Nhiệt trở (R-value):</span> <span>${materialData.rValue.toFixed(2)} m².K/W</span></li>
-            <li><span class="prop-name">Tỷ trọng:</span> <span>${materialData.density} kg/m³</span></li>
-            <li><span class="prop-name">Cấp chịu lửa:</span> <span>${materialData.fireRating}</span></li>
-            <li><span class="prop-name">Trọng lượng:</span> <span>${materialData.weight} kg/m²</span></li>
-            <li><span class="prop-name">Chi phí:</span> <span>${new Intl.NumberFormat('vi-VN').format(materialData.costPerM2)} VNĐ/m²</span></li>
-        `;
-    }
-
-    // --- TÍNH TOÁN HIỆU QUẢ NĂNG LƯỢNG CHI TIẾT ---
-    function calculateEnergySavings(comparisonMaterial, puMaterial, area, scenario, climateZone, elecPrice, installFactor, cop) {
-        // Lấy dữ liệu vật liệu
-        const compData = MATERIAL_DATA[comparisonMaterial];
-        const puData = MATERIAL_DATA[puMaterial];
-        
-        // Xác định nhiệt độ ngoài trời theo vùng khí hậu
-        const tempOutside = climateZone === 'north' ? scenario.tempOutsideNorth : scenario.tempOutsideSouth;
-        
-        // Tính nhiệt trở (R-value)
-        const rValueComp = compData.rValue;
-        const rValuePU = puData.rValue;
-        
-        // Tính hệ số truyền nhiệt U (W/m².K)
-        const uValueComp = 1 / rValueComp;
-        const uValuePU = 1 / rValuePU;
-        
-        // Chênh lệch nhiệt độ
-        const deltaT = tempOutside - scenario.tempInside;
-        
-        // Tính tổn thất nhiệt (W) - có tính hệ số lắp đặt
-        const heatLossComp = uValueComp * area * deltaT * installFactor;
-        const heatLossPU = uValuePU * area * deltaT * installFactor;
-        
-        // Tiết kiệm nhiệt (W)
-        const heatSaved = heatLossComp - heatLossPU;
-        
-        // Chuyển đổi sang điện năng tiết kiệm (kWh/năm)
-        const operatingHoursPerYear = scenario.operatingHours * scenario.daysPerYear;
-        const energySavedKwh = (heatSaved * operatingHoursPerYear) / (1000 * cop);
-        
-        // Tiền tiết kiệm (VNĐ/năm)
-        const moneySaved = energySavedKwh * elecPrice;
-        
-        return {
-            uValueComp: uValueComp,
-            uValuePU: uValuePU,
-            heatLossComp: heatLossComp,
-            heatLossPU: heatLossPU,
-            heatSaved: heatSaved,
-            energySavedKwh: energySavedKwh,
-            moneySaved: moneySaved,
-            rValueComp: rValueComp,
-            rValuePU: rValuePU
-        };
-    }
-    
-    // --- TÍNH TOÁN ROI CHI TIẾT ---
-    function calculateROI(comparisonMaterial, puMaterial, area, energyData, structuralPenalty) {
-        // Chi phí đầu tư
-        const costComp = MATERIAL_DATA[comparisonMaterial].costPerM2 * area;
-        const costPU = MATERIAL_DATA[puMaterial].costPerM2 * area;
-        
-        // Thêm chi phí gia cố kết cấu cho Bông khoáng (nếu áp dụng)
-        const additionalCost = comparisonMaterial.includes('mw') ? structuralPenalty * area : 0;
-        const totalCostComp = costComp + additionalCost;
-        
-        const costDifference = costPU - totalCostComp;
-        
-        // Thời gian hoàn vốn (năm)
-        const paybackYears = energyData.moneySaved > 0 ? costDifference / energyData.moneySaved : 999;
-        
-        return {
-            costComp: costComp,
-            costPU: costPU,
-            additionalCost: additionalCost,
-            totalCostComp: totalCostComp,
-            costDifference: costDifference,
-            paybackYears: paybackYears
-        };
-    }
-
-    // --- TÍNH TOÁN NPV ---
-    function calculateNPV(initialInvestment, annualSavings, years, discountRate, degradationRate, maintenanceRate, elecPriceIncrease) {
-        let npv = -initialInvestment;
-        let currentSavings = annualSavings;
-        
-        for (let year = 1; year <= years; year++) {
-            // Điều chỉnh tiết kiệm theo suy giảm hiệu suất và tăng giá điện
-            currentSavings = currentSavings * (1 - degradationRate/100) * (1 + elecPriceIncrease/100);
-            
-            // Trừ chi phí bảo trì
-            const maintenanceCost = initialInvestment * (maintenanceRate/100);
-            currentSavings -= maintenanceCost;
-            
-            // Tính giá trị hiện tại
-            const pv = currentSavings / Math.pow(1 + discountRate/100, year);
-            npv += pv;
-        }
-        
-        return npv;
-    }
-
-    let currentMode = 'scenario';
-    let performanceChart = null;
-    let sensitivityChart = null;
-
-    function switchMode(mode) {
-        currentMode = mode;
-        // UI Updates
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-        document.getElementById('input-scenario').classList.add('hidden');
-        document.getElementById('input-technical').classList.add('hidden');
-        document.getElementById('input-financial').classList.add('hidden');
-        document.getElementById('input-hybrid').classList.add('hidden');
-        document.getElementById('results').style.display = 'none';
-        document.getElementById('financial-results').style.display = 'none';
-        document.getElementById('hybrid-results').style.display = 'none';
-        document.getElementById(`input-${mode}`).classList.remove('hidden');
-    }
-
-    function runAnalysis() {
-        // 1. Lấy dữ liệu Input từ kịch bản
-        const projectType = document.getElementById('projectType').value;
-        const area = parseInt(document.getElementById('area').value);
-        const climateZone = document.getElementById('climateZone').value;
-        const comparisonMaterial = document.getElementById('comparisonMaterial').value;
-        const steelThickness = document.getElementById('steelThickness').value;
-        const elecPrice = parseInt(document.getElementById('elecPrice').value);
-        
-        // Lấy dữ liệu kịch bản
-        const scenario = SCENARIO_DATA[projectType];
-        
-        // Lấy thông số kỹ thuật
-        const installFactor = parseFloat(document.getElementById('installFactor').value);
-        const cop = parseFloat(document.getElementById('cop').value);
-        const structuralPenalty = parseInt(document.getElementById('structuralPenalty').value);
-        
-        // Vật liệu PU mặc định để so sánh
-        const puMaterial = 'pu_50';
-        
-        // 2. Tính toán hiệu quả năng lượng CHI TIẾT
-        const energyData = calculateEnergySavings(
-            comparisonMaterial, puMaterial, area, scenario, climateZone, 
-            elecPrice, installFactor, cop
-        );
-        
-        // 3. Tính toán ROI CHI TIẾT
-        const roiData = calculateROI(comparisonMaterial, puMaterial, area, energyData, structuralPenalty);
-        
-        // 4. Tính toán NPV (10 năm)
-        const analysisPeriod = 10;
-        const discountRate = 10;
-        const elecPriceIncrease = 5;
-        const puDegradation = parseFloat(document.getElementById('puDegradation').value);
-        const mwDegradation = parseFloat(document.getElementById('mwDegradation').value);
-        
-        // Xác định hệ số suy giảm phù hợp
-        const degradationRate = comparisonMaterial.includes('mw') ? mwDegradation : puDegradation;
-        
-        const npv = calculateNPV(
-            roiData.costDifference, 
-            energyData.moneySaved, 
-            analysisPeriod, 
-            discountRate,
-            degradationRate,
-            1.0, // maintenanceRate - giả định 1% cho đơn giản
-            elecPriceIncrease
-        );
-        
-        // 5. Hiển thị Kết quả
-        document.getElementById('results').style.display = 'block';
-        
-        // Update Dashboard
-        document.getElementById('res-roi').innerText = roiData.paybackYears > 50 ? ">50 năm" : roiData.paybackYears.toFixed(1) + " năm";
-        document.getElementById('res-energy').innerText = 
-            new Intl.NumberFormat('vi-VN').format(Math.round(energyData.energySavedKwh)) + " kWh";
-        document.getElementById('res-money').innerText = 
-            new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.round(energyData.moneySaved));
-        document.getElementById('res-npv').innerText = 
-            new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.round(npv));
-        
-        // Cập nhật chi tiết ROI
-        if (roiData.paybackYears <= 5) {
-            document.getElementById('card-roi').classList.add('good');
-            document.getElementById('res-roi-detail').textContent = "Đầu tư hiệu quả";
-        } else if (roiData.paybackYears <= 10) {
-            document.getElementById('card-roi').classList.add('warning');
-            document.getElementById('res-roi-detail').textContent = "Cân nhắc đầu tư";
-        } else {
-            document.getElementById('card-roi').classList.add('bad');
-            document.getElementById('res-roi-detail').textContent = "Đầu tư không hiệu quả";
-        }
-        
-        // Hiển thị chi tiết tính toán
-        document.getElementById('scenario-details-table').innerHTML = `
-            <tr>
-                <td>Hệ số truyền nhiệt U (W/m².K)</td>
-                <td>${energyData.uValueComp.toFixed(3)}</td>
-                <td>${energyData.uValuePU.toFixed(3)}</td>
-                <td>${(energyData.uValueComp - energyData.uValuePU).toFixed(3)}</td>
-            </tr>
-            <tr>
-                <td>Nhiệt trở R (m².K/W)</td>
-                <td>${energyData.rValueComp.toFixed(2)}</td>
-                <td>${energyData.rValuePU.toFixed(2)}</td>
-                <td>${(energyData.rValuePU - energyData.rValueComp).toFixed(2)}</td>
-            </tr>
-            <tr>
-                <td>Tổn thất nhiệt (W)</td>
-                <td>${Math.round(energyData.heatLossComp)}</td>
-                <td>${Math.round(energyData.heatLossPU)}</td>
-                <td>${Math.round(energyData.heatSaved)}</td>
-            </tr>
-            <tr>
-                <td>Chi phí đầu tư (VNĐ)</td>
-                <td>${new Intl.NumberFormat('vi-VN').format(Math.round(roiData.totalCostComp))}</td>
-                <td>${new Intl.NumberFormat('vi-VN').format(Math.round(roiData.costPU))}</td>
-                <td>${new Intl.NumberFormat('vi-VN').format(Math.round(roiData.costDifference))}</td>
-            </tr>
-        `;
-        
-        document.getElementById('scenario-calculation-details').innerHTML = `
-            <div style="margin-top: 15px;">
-                <strong>Phân tích hoàn vốn:</strong><br>
-                • Chi phí chênh lệch: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.round(roiData.costDifference))}<br>
-                • Tiết kiệm hàng năm: ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.round(energyData.moneySaved))}<br>
-                • Thời gian hoàn vốn: ${roiData.paybackYears > 50 ? "Trên 50 năm (không khả thi)" : roiData.paybackYears.toFixed(1) + " năm"}<br>
-                • NPV (10 năm): ${new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(Math.round(npv))}<br>
-                ${roiData.paybackYears <= 5 ? 
-                    "<span style='color: var(--success); font-weight: bold;'>✓ ĐẦU TƯ RẤT HIỆU QUẢ</span>" : 
-                    (roiData.paybackYears <= 10 ? 
-                        "<span style='color: var(--warning); font-weight: bold;'>∼ CÂN NHẮC ĐẦU TƯ</span>" : 
-                        "<span style='color: var(--danger); font-weight: bold;'>✗ ĐẦU TƯ KHÔNG HIỆU QUẢ</span>")}
-            </div>
-        `;
-        
-        // Hiển thị so sánh vật liệu
-        const compData = MATERIAL_DATA[comparisonMaterial];
-        const puData = MATERIAL_DATA[puMaterial];
-        
-        document.getElementById('comparison-material-props').innerHTML = `
-            <li><span class="prop-name">Hệ số dẫn nhiệt:</span> <span>${compData.lambda} W/m.K</span></li>
-            <li><span class="prop-name">Nhiệt trở (R-value):</span> <span>${compData.rValue.toFixed(2)} m².K/W</span></li>
-            <li><span class="prop-name">Tỷ trọng:</span> <span>${compData.density} kg/m³</span></li>
-            <li><span class="prop-name">Cấp chịu lửa:</span> <span>${compData.fireRating}</span></li>
-            <li><span class="prop-name">Trọng lượng:</span> <span>${compData.weight} kg/m²</span></li>
-            <li><span class="prop-name">Chi phí:</span> <span>${new Intl.NumberFormat('vi-VN').format(compData.costPerM2)} VNĐ/m²</span></li>
-        `;
-        
-        document.getElementById('pu-material-props').innerHTML = `
-            <li><span class="prop-name">Hệ số dẫn nhiệt:</span> <span>${puData.lambda} W/m.K</span></li>
-            <li><span class="prop-name">Nhiệt trở (R-value):</span> <span>${puData.rValue.toFixed(2)} m².K/W</span></li>
-            <li><span class="prop-name">Tỷ trọng:</span> <span>${puData.density} kg/m³</span></li>
-            <li><span class="prop-name">Cấp chịu lửa:</span> <span>${puData.fireRating}</span></li>
-            <li><span class="prop-name">Trọng lượng:</span> <span>${puData.weight} kg/m²</span></li>
-            <li><span class="prop-name">Chi phí:</span> <span>${new Intl.NumberFormat('vi-VN').format(puData.costPerM2)} VNĐ/m²</span></li>
-        `;
-        
-        // 6. Đánh giá rủi ro
-        let riskAssessmentHTML = "";
-        
-        if (projectType === 'cleanroom') {
-            riskAssessmentHTML = `
-                <div class="alert-box alert-danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>KHuyến nghị đặc biệt cho phòng sạch:</strong> Panel Bông khoáng có nguy cơ phát sinh bụi sợi (fiber release) nếu lớp tôn hoặc keo bị hở. Điều này là tối kỵ trong chuẩn GMP hoặc ISO Class sạch. Panel PU có cấu trúc lõi đúc liền khối, không sinh bụi, bề mặt phẳng, dễ vệ sinh. <strong>Panel PU là lựa chọn "bắt buộc" cho phòng sạch.</strong>
-                    </div>
-                </div>
-            `;
-        } else if (roiData.paybackYears <= 3) {
-            riskAssessmentHTML = `
-                <div class="alert-box alert-info">
-                    <i class="fas fa-check-circle"></i>
-                    <div>
-                        <strong>ĐẦU TƯ HIỆU QUẢ CAO:</strong> Thời gian hoàn vốn ngắn (${roiData.paybackYears.toFixed(1)} năm) và NPV dương cho thấy đây là khoản đầu tư rất hiệu quả. Khuyến nghị triển khai giải pháp Panel PU.
-                    </div>
-                </div>
-            `;
-        } else if (roiData.paybackYears <= 8) {
-            riskAssessmentHTML = `
-                <div class="alert-box alert-warning">
-                    <i class="fas fa-exclamation-circle"></i>
-                    <div>
-                        <strong>CÂN NHẮC ĐẦU TƯ:</strong> Thời gian hoàn vốn trung bình (${roiData.paybackYears.toFixed(1)} năm). Cân nhắc các yếu tố khác như tuổi thọ, độ bền và yêu cầu PCCC để ra quyết định cuối cùng.
-                    </div>
-                </div>
-            `;
-        } else {
-            riskAssessmentHTML = `
-                <div class="alert-box alert-danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <div>
-                        <strong>ĐẦU TƯ KHÔNG HIỆU QUẢ:</strong> Thời gian hoàn vốn quá dài (${roiData.paybackYears.toFixed(1)} năm). Trong trường hợp này, giải pháp so sánh (${compData.name}) có thể là lựa chọn hợp lý hơn về mặt tài chính, trừ khi có các yêu cầu đặc biệt về hiệu suất nhiệt hoặc PCCC.
-                    </div>
-                </div>
-            `;
-        }
-        
-        // Thêm đánh giá PCCC nếu có yêu cầu
-        const pcccRequirement = document.getElementById('pcccRequirement').value;
-        if (pcccRequirement !== 'none') {
-            riskAssessmentHTML += `
-                <div class="alert-box alert-warning">
-                    <i class="fas fa-fire-extinguisher"></i>
-                    <div>
-                        <strong>LƯU Ý PCCC:</strong> Công trình có yêu cầu PCCC ${pcccRequirement.toUpperCase()}. Panel PU tiêu chuẩn khó đạt được các chỉ số EI cao. Panel Bông khoáng là vật liệu vô cơ, dễ dàng đạt các chỉ số EI30, EI60, EI90. Cân nhắc sử dụng Panel Bông khoáng cho các khu vực yêu cầu PCCC hoặc áp dụng giải pháp lai ghép.
-                    </div>
-                </div>
-            `;
-        }
-        
-        document.getElementById('risk-assessment').innerHTML = riskAssessmentHTML;
-        
-        // 7. Vẽ Biểu đồ
-        renderPerformanceChart(compData, puData, energyData);
-        renderSensitivityChart(comparisonMaterial, puMaterial, area, scenario, climateZone, installFactor, cop, structuralPenalty);
-        
-        // Scroll xuống
-        document.getElementById('results').scrollIntoView({behavior: "smooth"});
-    }
-
-    function renderPerformanceChart(compData, puData, energyData) {
-        const ctx = document.getElementById('performanceChart').getContext('2d');
-        if (performanceChart) performanceChart.destroy();
-        
-        performanceChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Hệ số dẫn nhiệt (W/m.K)', 'Nhiệt trở (m².K/W)', 'Tổn thất nhiệt (W)', 'Chi phí (triệu VNĐ/m²)'],
-                datasets: [
-                    {
-                        label: compData.name,
-                        data: [
-                            compData.lambda,
-                            compData.rValue,
-                            energyData.heatLossComp / 1000, // Chia 1000 để hiển thị kW
-                            compData.costPerM2 / 1000000 // Chia 1,000,000 để hiển thị triệu VNĐ
-                        ],
-                        backgroundColor: 'rgba(231, 76, 60, 0.7)',
-                        borderColor: 'rgba(231, 76, 60, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: puData.name,
-                        data: [
-                            puData.lambda,
-                            puData.rValue,
-                            energyData.heatLossPU / 1000,
-                            puData.costPerM2 / 1000000
-                        ],
-                        backgroundColor: 'rgba(0, 104, 56, 0.7)',
-                        borderColor: 'rgba(0, 104, 56, 1)',
-                        borderWidth: 1
-                    }
-                ]
+        // Dữ liệu vật liệu
+        const MATERIAL_SPECS = {
+            "PU": {
+                name: "Panel PU Cách Nhiệt Cao Cấp",
+                lambda: 0.022,
+                fireRating: "B2/B3",
+                maxTemp: 110,
+                density: 40
             },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'So sánh Hiệu suất Vật liệu'
-                    }
-                }
+            "ROCKWOOL": {
+                name: "Panel Bông Khoáng Chống Cháy",
+                lambda: 0.038,
+                fireRating: "A1 (Không cháy)",
+                maxTemp: 600,
+                density: 100
             }
-        });
-    }
-
-    function renderSensitivityChart(comparisonMaterial, puMaterial, area, scenario, climateZone, installFactor, cop, structuralPenalty) {
-        const ctx = document.getElementById('sensitivityChart').getContext('2d');
-        if (sensitivityChart) sensitivityChart.destroy();
+        };
         
-        // Tạo dữ liệu cho các mức giá điện khác nhau
-        const elecPrices = [1500, 2000, 2500, 3000, 3500];
-        const paybackData = [];
+        // Chiến lược định giá
+        const PRICING_STRATEGY = {
+            STANDARD_MARGIN: 0.15,
+            PREMIUM_MARGIN: 0.25,
+            OVAL_DISCOUNT: 0.05
+        };
         
-        elecPrices.forEach(price => {
-            const energyData = calculateEnergySavings(
-                comparisonMaterial, puMaterial, area, scenario, climateZone, 
-                price, installFactor, cop
-            );
+        // Ràng buộc kỹ thuật
+        const TECHNICAL_CONSTRAINTS = {
+            MIN_STEEL_FOR_LONG_PANEL: 0.40,
+            LONG_PANEL_THRESHOLD: 3000,
+            HEAVY_PANEL_THRESHOLD: 50
+        };
+        
+        let currentQuotation = null;
+        let insulationChart = null;
+        let savingsChart = null;
+        
+        // =============================================
+        // HÀM CHUYỂN TAB
+        // =============================================
+        function switchTab(tabName) {
+            console.log("Chuyển sang tab:", tabName);
             
-            const roiData = calculateROI(comparisonMaterial, puMaterial, area, energyData, structuralPenalty);
-            paybackData.push(roiData.paybackYears);
-        });
+            // Ẩn tất cả các tab content
+            document.getElementById('tab-config-content').classList.add('hidden');
+            document.getElementById('tab-analysis-content').classList.add('hidden');
+            document.getElementById('tab-quote-content').classList.add('hidden');
+            
+            // Xóa active từ tất cả các tab button
+            document.getElementById('tab-config').classList.remove('active');
+            document.getElementById('tab-analysis').classList.remove('active');
+            document.getElementById('tab-quote').classList.remove('active');
+            
+            // Hiển thị tab được chọn và thêm class active
+            document.getElementById(`tab-${tabName}-content`).classList.remove('hidden');
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            
+            // Nếu chuyển sang tab phân tích, cập nhật biểu đồ
+            if (tabName === 'analysis') {
+                updateAnalysisCharts();
+            }
+            
+            // Nếu chuyển sang tab báo giá, cập nhật thông tin
+            if (tabName === 'quote' && currentQuotation) {
+                updateQuotationDisplay();
+            }
+        }
         
-        sensitivityChart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: elecPrices.map(price => price.toLocaleString('vi-VN') + ' VNĐ'),
-                datasets: [{
-                    label: 'Thời gian hoàn vốn (năm)',
-                    data: paybackData,
-                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
-                    borderColor: 'rgba(52, 152, 219, 1)',
-                    borderWidth: 2,
-                    tension: 0.1,
-                    fill: true
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Thời gian hoàn vốn (năm)'
-                        }
-                    },
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Giá điện (VNĐ/kWh)'
+        // =============================================
+        // CẬP NHẬT THÔNG SỐ VẬT LIỆU
+        // =============================================
+        function updateMaterialSpecs() {
+            const coreType = document.getElementById('coreType').value;
+            const thickness = parseFloat(document.getElementById('thickness').value);
+            const density = document.getElementById('density').value;
+            
+            const material = MATERIAL_SPECS[coreType];
+            
+            // Tính toán nhiệt trở
+            const rValue = (thickness / 1000) / material.lambda;
+            const uValue = 1 / rValue;
+            
+            // Cập nhật hiển thị
+            document.getElementById('lambdaValue').textContent = `${material.lambda} W/m.K`;
+            document.getElementById('rValue').textContent = `${rValue.toFixed(2)} m².K/W`;
+            document.getElementById('fireRating').textContent = material.fireRating;
+            document.getElementById('densityValue').textContent = `${density} kg/m³`;
+            
+            // Kiểm tra ràng buộc kỹ thuật
+            checkTechnicalConstraints();
+        }
+        
+        // =============================================
+        // KIỂM TRA RÀNG BUỘC KỸ THUẬT
+        // =============================================
+        function checkTechnicalConstraints() {
+            const coreType = document.getElementById('coreType').value;
+            const steelThickness = parseFloat(document.getElementById('steelThickness').value);
+            const length = parseFloat(document.getElementById('length').value);
+            
+            let warnings = [];
+            
+            // RULE 1: Tấm dài > 3m phải dùng tôn dày ≥ 0.4mm
+            if (length > TECHNICAL_CONSTRAINTS.LONG_PANEL_THRESHOLD && 
+                steelThickness < TECHNICAL_CONSTRAINTS.MIN_STEEL_FOR_LONG_PANEL) {
+                warnings.push({
+                    type: 'warning',
+                    message: `CẢNH BÁO KỸ THUẬT: Tấm dài ${length}mm yêu cầu tôn dày tối thiểu ${TECHNICAL_CONSTRAINTS.MIN_STEEL_FOR_LONG_PANEL}mm để tránh hiện tượng "gợn sóng" (Oil Canning).`
+                });
+            }
+            
+            // RULE 2: Bông khoáng không dùng tôn 0.35mm
+            if (coreType === 'ROCKWOOL' && steelThickness < 0.40) {
+                warnings.push({
+                    type: 'warning',
+                    message: `QUY ĐỊNH AN TOÀN: Panel Bông khoáng bắt buộc dùng tôn dày ≥ 0.40mm để đảm bảo độ cứng kết cấu.`
+                });
+            }
+            
+            // Hiển thị cảnh báo
+            displayTechnicalWarnings(warnings);
+        }
+        
+        function displayTechnicalWarnings(warnings) {
+            const container = document.getElementById('technicalWarnings');
+            
+            if (warnings.length === 0) {
+                container.innerHTML = '';
+                return;
+            }
+            
+            let warningsHTML = '';
+            warnings.forEach(warning => {
+                warningsHTML += `
+                    <div class="alert-box alert-${warning.type}">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <div>${warning.message}</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = warningsHTML;
+        }
+        
+        // =============================================
+        // TÍCH HỢP OVAL
+        // =============================================
+        function toggleOvalIntegration() {
+            const ovalIntegration = document.getElementById('ovalIntegration').checked;
+            const ovalOptions = document.getElementById('ovalOptions');
+            
+            if (ovalIntegration) {
+                ovalOptions.classList.remove('hidden');
+            } else {
+                ovalOptions.classList.add('hidden');
+            }
+        }
+        
+        // =============================================
+        // TÍNH TOÁN BÁO GIÁ
+        // =============================================
+        function calculateQuotation() {
+            console.log("Bắt đầu tính toán báo giá...");
+            
+            // Thu thập dữ liệu đầu vào
+            const inputs = {
+                coreType: document.getElementById('coreType').value,
+                density: document.getElementById('density').value,
+                thickness: parseFloat(document.getElementById('thickness').value),
+                steelThickness: document.getElementById('steelThickness').value,
+                length: parseFloat(document.getElementById('length').value),
+                width: parseFloat(document.getElementById('width').value),
+                quantity: parseFloat(document.getElementById('quantity').value),
+                ovalIntegration: document.getElementById('ovalIntegration').checked,
+                ovalSockets: parseInt(document.getElementById('ovalSockets').value),
+                ovalSwitches: parseInt(document.getElementById('ovalSwitches').value),
+                customerName: document.getElementById('customerName').value || "Khách hàng",
+                projectName: document.getElementById('projectName').value || "Dự án"
+            };
+            
+            // Tính toán
+            currentQuotation = performQuotationCalculation(inputs);
+            
+            // Chuyển sang tab báo giá
+            switchTab('quote');
+            
+            // Cập nhật phân tích
+            updateAnalysisCharts();
+            
+            alert("Báo giá đã được tính toán thành công!");
+        }
+        
+        function performQuotationCalculation(inputs) {
+            // Tính diện tích
+            const areaPerPanel = (inputs.length * inputs.width) / 1000000;
+            const totalArea = areaPerPanel * inputs.quantity;
+            
+            // Xác định giá cơ bản dựa trên loại panel
+            let baseCostPerM2 = 0;
+            if (inputs.coreType === 'PU') {
+                baseCostPerM2 = 350000; // Giá vốn PU
+            } else {
+                baseCostPerM2 = 420000; // Giá vốn Rockwool
+            }
+            
+            // Áp dụng margin
+            let margin = PRICING_STRATEGY.STANDARD_MARGIN;
+            if (inputs.coreType === 'ROCKWOOL' && parseInt(inputs.density) >= 100) {
+                margin = PRICING_STRATEGY.PREMIUM_MARGIN;
+            }
+            
+            // Áp dụng giảm giá Oval nếu có
+            if (inputs.ovalIntegration) {
+                margin -= PRICING_STRATEGY.OVAL_DISCOUNT;
+            }
+            
+            // Tính giá bán
+            const sellingPricePerM2 = baseCostPerM2 / (1 - margin);
+            const subtotal = sellingPricePerM2 * totalArea;
+            const vat = subtotal * 0.1;
+            const total = subtotal + vat;
+            
+            // Tính trọng lượng
+            const material = MATERIAL_SPECS[inputs.coreType];
+            const volume = totalArea * (inputs.thickness / 1000);
+            const coreWeight = volume * inputs.density;
+            const steelWeight = totalArea * 2 * 3.5;
+            const totalWeight = coreWeight + steelWeight;
+            const weightPerPanel = totalWeight / inputs.quantity;
+            
+            return {
+                inputs: inputs,
+                calculations: {
+                    areaPerPanel: areaPerPanel,
+                    totalArea: totalArea,
+                    sellingPricePerM2: sellingPricePerM2,
+                    subtotal: subtotal,
+                    vat: vat,
+                    total: total,
+                    totalWeight: totalWeight,
+                    weightPerPanel: weightPerPanel
+                },
+                timestamp: new Date(),
+                quoteNumber: generateQuoteNumber()
+            };
+        }
+        
+        function generateQuoteNumber() {
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `3CG-${year}${month}${day}-${random}`;
+        }
+        
+        // =============================================
+        // CẬP NHẬT HIỂN THỊ BÁO GIÁ
+        // =============================================
+        function updateQuotationDisplay() {
+            if (!currentQuotation) return;
+            
+            const { inputs, calculations, quoteNumber, timestamp } = currentQuotation;
+            const material = MATERIAL_SPECS[inputs.coreType];
+            
+            // Cập nhật thông tin khách hàng
+            document.getElementById('quoteCustomer').textContent = `Khách hàng: ${inputs.customerName}`;
+            document.getElementById('quoteProject').textContent = `Dự án: ${inputs.projectName}`;
+            document.getElementById('quoteCode').textContent = quoteNumber;
+            document.getElementById('quoteDate').textContent = formatDate(timestamp);
+            
+            // Cập nhật Oval tag
+            const ovalTag = document.getElementById('ovalTag');
+            if (inputs.ovalIntegration) {
+                ovalTag.textContent = "Đã tích hợp Oval";
+                ovalTag.style.backgroundColor = '#3498db';
+            } else {
+                ovalTag.textContent = "Chưa tích hợp Oval";
+                ovalTag.style.backgroundColor = '#95a5a6';
+            }
+            
+            // Cập nhật thông số sản phẩm
+            document.getElementById('quotePanelType').textContent = 
+                `${material.name} ${inputs.thickness}mm (${inputs.density}kg/m³)`;
+            document.getElementById('quoteDimensions').textContent = 
+                `${inputs.length} × ${inputs.width} × ${inputs.thickness} mm`;
+            document.getElementById('quoteQuantity').textContent = 
+                `${inputs.quantity} tấm`;
+            document.getElementById('quoteArea').textContent = 
+                `${calculations.totalArea.toFixed(2)} m²`;
+            
+            // Cập nhật bảng giá
+            document.getElementById('quoteDetails').innerHTML = `
+                <tr>
+                    <td>${material.name} ${inputs.thickness}mm</td>
+                    <td>m²</td>
+                    <td>${calculations.totalArea.toFixed(2)}</td>
+                    <td>${formatCurrency(calculations.sellingPricePerM2)}</td>
+                    <td>${formatCurrency(calculations.subtotal)}</td>
+                </tr>
+            `;
+            
+            document.getElementById('quoteSubtotal').textContent = formatCurrency(calculations.subtotal);
+            document.getElementById('quoteVAT').textContent = formatCurrency(calculations.vat);
+            document.getElementById('quoteTotal').textContent = formatCurrency(calculations.total);
+            
+            // Cập nhật cảnh báo
+            updateQuotationWarnings();
+        }
+        
+        function updateQuotationWarnings() {
+            if (!currentQuotation) return;
+            
+            const { inputs, calculations } = currentQuotation;
+            let warningsHTML = '';
+            
+            // Cảnh báo trọng lượng
+            if (calculations.weightPerPanel > TECHNICAL_CONSTRAINTS.HEAVY_PANEL_THRESHOLD) {
+                warningsHTML += `
+                    <div class="alert-box alert-warning">
+                        <i class="fas fa-weight-hanging"></i>
+                        <div>
+                            <strong>LƯU Ý THI CÔNG:</strong> Mỗi tấm nặng ${calculations.weightPerPanel.toFixed(1)}kg. 
+                            Yêu cầu sử dụng xe cẩu/xe nâng. <strong>Không được lắp đặt thủ công.</strong>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Cảnh báo về PCCC nếu là PU
+            if (inputs.coreType === 'PU') {
+                warningsHTML += `
+                    <div class="alert-box alert-info">
+                        <i class="fas fa-fire-extinguisher"></i>
+                        <div>
+                            <strong>THÔNG TIN PCCC:</strong> Panel PU có cấp chịu lửa ${MATERIAL_SPECS.PU.fireRating}. 
+                            Đối với khu vực yêu cầu PCCC cao, vui lòng cân nhắc Panel Bông khoáng (cấp A1 - Không cháy).
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('quoteWarnings').innerHTML = warningsHTML;
+        }
+        
+        // =============================================
+        // PHÂN TÍCH HIỆU QUẢ
+        // =============================================
+        function updateAnalysisCharts() {
+            if (!currentQuotation) {
+                createDefaultCharts();
+                return;
+            }
+            
+            const { inputs, calculations } = currentQuotation;
+            const material = MATERIAL_SPECS[inputs.coreType];
+            
+            // Tính toán hiệu quả năng lượng
+            const rValue = (inputs.thickness / 1000) / material.lambda;
+            const uValue = 1 / rValue;
+            
+            // So sánh với tường gạch (U ≈ 2.0 W/m².K)
+            const brickUValue = 2.0;
+            
+            // Tính tiết kiệm năng lượng
+            const operatingHours = 10 * 312; // 10h/ngày × 312 ngày/năm
+            const energySavings = calculations.totalArea * (brickUValue - uValue) * operatingHours * 0.6 / 3.0;
+            const co2Reduction = energySavings * 0.5; // Giả sử 0.5kg CO2/kWh
+            
+            // Cập nhật chỉ số
+            document.getElementById('analysisUValue').textContent = `${uValue.toFixed(2)} W/m²K`;
+            document.getElementById('analysisRValue').textContent = `${rValue.toFixed(2)} m²K/W`;
+            document.getElementById('energySavings').textContent = `${Math.round(energySavings).toLocaleString()} kWh`;
+            document.getElementById('co2Reduction').textContent = `${Math.round(co2Reduction).toLocaleString()} kg`;
+            
+            // Vẽ biểu đồ
+            createInsulationChart(uValue, brickUValue);
+            createSavingsChart(energySavings);
+        }
+        
+        function createDefaultCharts() {
+            const ctx1 = document.getElementById('insulationChart').getContext('2d');
+            const ctx2 = document.getElementById('savingsChart').getContext('2d');
+            
+            if (insulationChart) insulationChart.destroy();
+            if (savingsChart) savingsChart.destroy();
+            
+            insulationChart = new Chart(ctx1, {
+                type: 'bar',
+                data: {
+                    labels: ['Panel 3CGreen (50mm)', 'Tường gạch (220mm)'],
+                    datasets: [{
+                        label: 'Hệ số truyền nhiệt U (W/m².K)',
+                        data: [0.44, 2.0],
+                        backgroundColor: ['rgba(0, 104, 56, 0.7)', 'rgba(231, 76, 60, 0.7)'],
+                        borderColor: ['rgba(0, 104, 56, 1)', 'rgba(231, 76, 60, 1)'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'W/m².K (Càng thấp càng tốt)'
+                            }
                         }
                     }
+                }
+            });
+            
+            savingsChart = new Chart(ctx2, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tiết kiệm được', 'Năng lượng hao phí'],
+                    datasets: [{
+                        data: [65, 35],
+                        backgroundColor: ['rgba(39, 174, 96, 0.7)', 'rgba(149, 165, 166, 0.7)'],
+                        borderColor: ['rgba(39, 174, 96, 1)', 'rgba(149, 165, 166, 1)'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+        
+        function createInsulationChart(uValue, brickUValue) {
+            const ctx = document.getElementById('insulationChart').getContext('2d');
+            
+            if (insulationChart) insulationChart.destroy();
+            
+            insulationChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Panel 3CGreen', 'Tường gạch truyền thống'],
+                    datasets: [{
+                        label: 'Hệ số truyền nhiệt U (W/m².K)',
+                        data: [uValue, brickUValue],
+                        backgroundColor: ['rgba(0, 104, 56, 0.7)', 'rgba(231, 76, 60, 0.7)'],
+                        borderColor: ['rgba(0, 104, 56, 1)', 'rgba(231, 76, 60, 1)'],
+                        borderWidth: 1
+                    }]
                 },
-                plugins: {
-                    legend: {
-                        position: 'top',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Phân tích Độ nhạy Theo Giá Điện'
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'W/m².K (Càng thấp càng tốt)'
+                            }
+                        }
                     }
                 }
-            }
-        });
-    }
-
-    function runTechnicalAnalysis() {
-        alert("Phân tích thông số kỹ thuật đã được cập nhật và sẽ áp dụng cho các tính toán tiếp theo.");
-        // Ở đây có thể thêm logic xử lý phân tích kỹ thuật chi tiết hơn
-    }
-
-    function runFinancialAnalysis() {
-        alert("Phân tích tài chính chi tiết đang được tính toán...");
-        // Ở đây có thể thêm logic xử lý phân tích tài chính chi tiết hơn
-        document.getElementById('financial-results').style.display = 'block';
-        document.getElementById('financial-results').innerHTML = `
-            <h3 class="text-center">PHÂN TÍCH TÀI CHÍNH CHI TIẾT</h3>
-            <div class="alert-box alert-info">
-                <i class="fas fa-info-circle"></i>
-                <div>
-                    <strong>Phân tích dòng tiền chiết khấu (DCF):</strong> Đang tính toán giá trị hiện tại ròng (NPV) và tỷ suất hoàn vốn nội bộ (IRR) cho các kịch bản khác nhau.
-                </div>
-            </div>
-            <div class="roi-details">
-                <h4>Dòng tiền dự kiến (10 năm)</h4>
-                <table class="roi-table">
-                    <thead>
-                        <tr>
-                            <th>Năm</th>
-                            <th>Đầu tư ban đầu</th>
-                            <th>Tiết kiệm năng lượng</th>
-                            <th>Chi phí bảo trì</th>
-                            <th>Dòng tiền ròng</th>
-                            <th>Giá trị hiện tại</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>0</td>
-                            <td>-500,000,000</td>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>-500,000,000</td>
-                            <td>-500,000,000</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>0</td>
-                            <td>150,000,000</td>
-                            <td>-5,000,000</td>
-                            <td>145,000,000</td>
-                            <td>131,818,182</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>0</td>
-                            <td>157,500,000</td>
-                            <td>-5,250,000</td>
-                            <td>152,250,000</td>
-                            <td>125,826,446</td>
-                        </tr>
-                        <!-- Thêm các dòng cho năm 3-10 -->
-                        <tr>
-                            <td>10</td>
-                            <td>0</td>
-                            <td>232,000,000</td>
-                            <td>-7,500,000</td>
-                            <td>224,500,000</td>
-                            <td>86,532,120</td>
-                        </tr>
-                        <tr>
-                            <td colspan="4"><strong>Tổng NPV</strong></td>
-                            <td colspan="2"><strong>+350,000,000 VNĐ</strong></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        `;
-        document.getElementById('financial-results').scrollIntoView({behavior: "smooth"});
-    }
-
-    function runHybridAnalysis() {
-        alert("Giải pháp lai ghép đang được tính toán...");
-        // Ở đây có thể thêm logic xử lý giải pháp lai ghép chi tiết
-        document.getElementById('hybrid-results').style.display = 'block';
-        document.getElementById('hybrid-results').innerHTML = `
-            <h3 class="text-center">GIẢI PHÁP LAI GHÉP TỐI ƯU</h3>
-            <div class="alert-box alert-info">
-                <i class="fas fa-lightbulb"></i>
-                <div>
-                    <strong>Chiến lược tối ưu:</strong> Kết hợp ưu điểm của cả Panel PU và Panel Bông khoáng để đạt được hiệu quả tổng thể cao nhất.
-                </div>
-            </div>
-            <div class="material-comparison">
-                <div class="material-card">
-                    <h4>Vách bao che ngoài</h4>
-                    <p><strong>Panel PU 50mm</strong></p>
-                    <ul class="material-props">
-                        <li><span class="prop-name">Ưu điểm:</span> <span>Cách nhiệt tối ưu, chống thấm nước mưa, độ bền thời tiết cao</span></li>
-                        <li><span class="prop-name">Diện tích:</span> <span>1,200 m² (60%)</span></li>
-                        <li><span class="prop-name">Chi phí:</span> <span>526,588,800 VNĐ</span></li>
-                    </ul>
-                </div>
-                
-                <div class="material-card">
-                    <h4>Vách ngăn chia bên trong</h4>
-                    <p><strong>Panel Bông khoáng 50mm 100kg/m³</strong></p>
-                    <ul class="material-props">
-                        <li><span class="prop-name">Ưu điểm:</span> <span>Đạt chuẩn PCCC (EI), cách âm tốt giữa các phân xưởng</span></li>
-                        <li><span class="prop-name">Diện tích:</span> <span>800 m² (40%)</span></li>
-                        <li><span class="prop-name">Chi phí:</span> <span>278,588,000 VNĐ</span></li>
-                    </ul>
-                </div>
-            </div>
+            });
+        }
+        
+        function createSavingsChart(energySavings) {
+            const ctx = document.getElementById('savingsChart').getContext('2d');
+            const wastedEnergy = energySavings * 0.35;
             
-            <div class="roi-details">
-                <h4>Tổng hợp Chi phí & Hiệu quả</h4>
-                <table class="roi-table">
-                    <thead>
-                        <tr>
-                            <th>Hạng mục</th>
-                            <th>Chi phí (VNĐ)</th>
-                            <th>Hiệu quả</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Tổng chi phí vật liệu</td>
-                            <td>805,176,800</td>
-                            <td>-</td>
-                        </tr>
-                        <tr>
-                            <td>Tiết kiệm năng lượng/năm</td>
-                            <td>125,000,000</td>
-                            <td>Cao</td>
-                        </tr>
-                        <tr>
-                            <td>Đáp ứng PCCC</td>
-                            <td>-</td>
-                            <td>Đạt yêu cầu EI60</td>
-                        </tr>
-                        <tr>
-                            <td>Thời gian hoàn vốn</td>
-                            <td>6.4 năm</td>
-                            <td>Khả thi</td>
-                        </tr>
-                    </tbody>
-                </table>
-                
-                <div style="margin-top: 15px;">
-                    <strong>Kết luận:</strong> Giải pháp lai ghép mang lại sự cân bằng tối ưu giữa hiệu quả năng lượng, an toàn PCCC và chi phí đầu tư. Đây là giải pháp được khuyến nghị cho hầu hết các công trình công nghiệp hiện đại.
-                </div>
-            </div>
-        `;
-        document.getElementById('hybrid-results').scrollIntoView({behavior: "smooth"});
-    }
-
-    // Khởi tạo
-    document.addEventListener('DOMContentLoaded', function() {
-        updateScenario();
-        updateMaterialDetails();
-    });
-</script>
+            if (savingsChart) savingsChart.destroy();
+            
+            savingsChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Tiết kiệm được', 'Năng lượng hao phí'],
+                    datasets: [{
+                        data: [energySavings, wastedEnergy],
+                        backgroundColor: ['rgba(39, 174, 96, 0.7)', 'rgba(149, 165, 166, 0.7)'],
+                        borderColor: ['rgba(39, 174, 96, 1)', 'rgba(149, 165, 166, 1)'],
+                        borderWidth: 1
+                    }]
+                }
+            });
+        }
+        
+        // =============================================
+        // TIỆN ÍCH
+        // =============================================
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND',
+                minimumFractionDigits: 0
+            }).format(amount);
+        }
+        
+        function formatDate(date) {
+            return new Intl.DateTimeFormat('vi-VN', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+            }).format(date);
+        }
+        
+        function generatePDF() {
+            alert("PDF báo giá đã được tạo thành công!\n\nTrong hệ thống thực tế, file PDF sẽ được tải xuống tự động.");
+        }
+        
+        function printQuote() {
+            window.print();
+        }
+        
+        // =============================================
+        // KHỞI TẠO
+        // =============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Hệ thống khởi động...");
+            updateMaterialSpecs();
+            createDefaultCharts();
+            
+            // Thêm sự kiện real-time calculation
+            document.getElementById('length').addEventListener('input', checkTechnicalConstraints);
+            document.getElementById('steelThickness').addEventListener('change', checkTechnicalConstraints);
+            document.getElementById('coreType').addEventListener('change', checkTechnicalConstraints);
+        });
+    </script>
 </body>
 </html>
