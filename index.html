@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HỆ THỐNG ĐỊNH GIÁ THÔNG MINH 3CGREEN | Member of 3CElectric Group</title>
-    <meta name="description" content="Công cụ CPQ (Cấu hình - Định giá - Chào hàng) thông minh cho Panel cách nhiệt PU & Bông khoáng với tích hợp hệ sinh thái Oval">
+    <meta name="description" content="Công cụ CPQ (Cấu hình - Định giá - Chào hàng) thông minh cho Panel cách nhiệt PU & Bông khoáng với minh bạch thông tin kỹ thuật">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,8 @@
             --white: #ffffff;
             --gray-light: #f8f9fa;
             --border: #e1e8ed;
-            --ecosystem: #3498db;
+            --technical: #3498db;
+            --mep: #9b59b6;
         }
 
         * {
@@ -79,8 +80,8 @@
             letter-spacing: 1px;
         }
         
-        .ecosystem-tag {
-            background: var(--ecosystem);
+        .technical-tag {
+            background: var(--technical);
             color: white;
             padding: 5px 15px;
             border-radius: 15px;
@@ -224,66 +225,39 @@
             color: var(--primary);
         }
         
-        .switch-container {
+        .disclaimer-box {
+            padding: 20px;
+            border-radius: 8px;
+            margin: 25px 0;
+            border: 2px solid var(--technical);
+            background-color: rgba(52, 152, 219, 0.05);
+        }
+        
+        .disclaimer-title {
+            font-weight: 700;
+            color: var(--technical);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            background: white;
-            padding: 15px;
+            gap: 10px;
+        }
+        
+        .material-clarification {
+            background: rgba(155, 89, 182, 0.05);
+            border: 2px solid var(--mep);
+            padding: 20px;
             border-radius: 8px;
-            border: 1px solid var(--border);
             margin: 20px 0;
         }
         
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 60px;
-            height: 34px;
-        }
-        
-        .switch input { 
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #ccc;
-            transition: .4s;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 26px;
-            width: 26px;
-            left: 4px;
-            bottom: 4px;
-            background-color: white;
-            transition: .4s;
-        }
-        
-        input:checked + .slider {
-            background-color: var(--ecosystem);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        
-        .slider.round {
-            border-radius: 34px;
-        }
-        
-        .slider.round:before {
-            border-radius: 50%;
+        .clarification-badge {
+            background: var(--mep);
+            color: white;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-left: 5px;
         }
         
         .alert-box {
@@ -303,7 +277,13 @@
         
         .alert-info {
             background-color: rgba(52, 152, 219, 0.1);
-            border-left: 4px solid var(--ecosystem);
+            border-left: 4px solid var(--technical);
+            color: var(--text-dark);
+        }
+        
+        .alert-critical {
+            background-color: rgba(231, 76, 60, 0.1);
+            border-left: 4px solid var(--danger);
             color: var(--text-dark);
         }
         
@@ -410,6 +390,37 @@
             font-size: 1.1rem;
         }
         
+        .solution-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+        
+        .solution-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        
+        .solution-card.recommended {
+            border: 2px solid var(--success);
+            position: relative;
+        }
+        
+        .recommended-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
         @media (max-width: 768px) {
             .content-section {
                 padding: 20px;
@@ -442,7 +453,7 @@
             </div>
             <div>
                 <div class="brand-badge">Hệ thống định giá thông minh</div>
-                <div class="ecosystem-tag" style="margin-top: 10px;">Tích hợp Oval Ecosystem</div>
+                <div class="technical-tag" style="margin-top: 10px;">Thông tin kỹ thuật chính xác</div>
             </div>
         </div>
 
@@ -465,6 +476,19 @@
                 <i class="fas fa-sliders-h"></i> 1. CẤU HÌNH SẢN PHẨM PANEL
             </div>
             
+            <!-- THÔNG BÁO QUAN TRỌNG VỀ VẬT LIỆU -->
+            <div class="material-clarification">
+                <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <i class="fas fa-vial" style="color: var(--mep);"></i>
+                    <h4 style="margin: 0 10px; color: var(--mep);">MINH BẠCH THÔNG TIN VẬT LIỆU</h4>
+                    <span class="clarification-badge">Chính xác</span>
+                </div>
+                <p><strong>THÔNG BÁO CHÍNH THỨC:</strong> 3CGreen chỉ sản xuất và phân phối <strong>Panel Bông Khoáng (Rockwool)</strong> và <strong>Panel Polyurethane (PU)</strong>. Chúng tôi không sản xuất Panel Bông Gốm (Ceramic Fiber).</p>
+                <p style="font-size: 0.9rem; margin-top: 10px; color: var(--text-light);">
+                    <i class="fas fa-info-circle"></i> Bông Khoáng (Rockwool) và Bông Gốm (Ceramic Fiber) là hai loại vật liệu hoàn toàn khác biệt về thành phần, nhiệt độ làm việc và ứng dụng.
+                </p>
+            </div>
+            
             <div class="config-wizard">
                 <div class="config-step">
                     <h3><i class="fas fa-layer-group"></i> Chọn Loại Panel</h3>
@@ -473,7 +497,7 @@
                         <label>Vật liệu lõi cách nhiệt</label>
                         <select id="coreType" class="form-control" onchange="updateMaterialSpecs()">
                             <option value="PU">Panel PU Cách Nhiệt Cao Cấp</option>
-                            <option value="ROCKWOOL">Panel Bông Khoáng Chống Cháy</option>
+                            <option value="ROCKWOOL">Panel Bông Khoáng (Rockwool) Chống Cháy</option>
                         </select>
                     </div>
                     
@@ -548,40 +572,60 @@
                 </div>
             </div>
             
-            <!-- TÍCH HỢP HỆ SINH THÁI OVAL -->
+            <!-- THÔNG TIN QUAN TRỌNG VỀ HỆ THỐNG CƠ ĐIỆN -->
             <div class="section-title">
-                <i class="fas fa-puzzle-piece"></i> 2. TÍCH HỢP HỆ SINH THÁI OVAL
+                <i class="fas fa-plug"></i> 2. THÔNG TIN VỀ HỆ THỐNG CƠ ĐIỆN (MEP)
             </div>
             
-            <div class="switch-container">
-                <div>
-                    <h4 style="margin-bottom: 5px;">Tích hợp hệ thống điện Oval</h4>
-                    <p style="font-size: 0.9rem; color: var(--text-light);">Gia công âm tường với ống gen và phụ kiện điện Oval</p>
+            <div class="disclaimer-box">
+                <div class="disclaimer-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    THÔNG BÁO QUAN TRỌNG VỀ HỆ THỐNG ĐIỆN
                 </div>
-                <label class="switch">
-                    <input type="checkbox" id="ovalIntegration" onchange="toggleOvalIntegration()">
-                    <span class="slider round"></span>
-                </label>
+                <p><strong>Phạm vi cung cấp:</strong> Panel 3CGreen được cung cấp ở dạng kết cấu tiêu chuẩn hoàn thiện.</p>
+                <p><strong>Không tích hợp sẵn:</strong> Sản phẩm <strong>KHÔNG</strong> tích hợp sẵn hệ thống ống gen, dây điện, đế âm tường hay bất kỳ phụ kiện điện nào bên trong lớp lõi cách nhiệt.</p>
+                <p><strong>Lý do kỹ thuật:</strong> Việc khoét rãnh hoặc tạo khoảng trống trong lõi panel sẽ làm giảm hiệu suất cách nhiệt, tạo cầu nhiệt (thermal bridge), và suy yếu kết cấu.</p>
             </div>
             
-            <div id="ovalOptions" class="hidden" style="margin-top: 20px;">
-                <div class="input-row">
-                    <div class="input-field">
-                        <label>Số lượng ổ cắm Oval/tấm</label>
-                        <select id="ovalSockets" class="form-control">
-                            <option value="0">Không tích hợp</option>
-                            <option value="1">1 ổ cắm</option>
-                            <option value="2">2 ổ cắm</option>
-                        </select>
+            <div class="section-title">
+                <i class="fas fa-lightbulb"></i> GIẢI PHÁP THAY THẾ ĐƯỢC ĐỀ XUẤT
+            </div>
+            
+            <div class="solution-options">
+                <div class="solution-card recommended">
+                    <div class="recommended-badge">Khuyến nghị</div>
+                    <h4><i class="fas fa-bolt"></i> Hệ thống nẹp điện đồng bộ</h4>
+                    <p>Sử dụng nẹp điện làm từ tôn cùng màu với panel, tạo cảm giác "vô hình" nhưng dễ bảo trì.</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Thẩm mỹ cao, đồng bộ màu sắc</li>
+                        <li>Dễ dàng bảo trì, sửa chữa</li>
+                        <li>Không ảnh hưởng đến kết cấu panel</li>
+                    </ul>
+                    <div style="margin-top: 15px; font-size: 0.9rem; color: var(--text-light);">
+                        <i class="fas fa-info-circle"></i> Liên hệ bộ phận kinh doanh để được báo giá nẹp điện đồng bộ
                     </div>
-                    
-                    <div class="input-field">
-                        <label>Số lượng công tắc Oval/tấm</label>
-                        <select id="ovalSwitches" class="form-control">
-                            <option value="0">Không tích hợp</option>
-                            <option value="1">1 công tắc</option>
-                            <option value="2">2 công tắc</option>
-                        </select>
+                </div>
+                
+                <div class="solution-card">
+                    <h4><i class="fas fa-wiring"></i> Đi dây trong xương vách</h4>
+                    <p>Sử dụng hệ khung xương U nhôm rỗng để luồn dây điện, gắn ổ cắm trực tiếp lên thanh nhôm.</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Phù hợp cho vách ngăn văn phòng</li>
+                        <li>Linh hoạt trong bố trí ổ cắm</li>
+                        <li>Dễ dàng thay đổi thiết kế</li>
+                    </ul>
+                </div>
+                
+                <div class="solution-card">
+                    <h4><i class="fas fa-toolbox"></i> Dịch vụ gia công CNC</h4>
+                    <p>Gia công lỗ chờ kỹ thuật theo bản vẽ (cho cửa, lỗ thông gió, lỗ đi ống kỹ thuật).</p>
+                    <ul style="margin-top: 10px; padding-left: 20px;">
+                        <li>Gia công chính xác theo bản vẽ</li>
+                        <li>Tăng cứng tại vị trí gia công</li>
+                        <li>Chỉ áp dụng cho vị trí cụ thể</li>
+                    </ul>
+                    <div style="margin-top: 15px; font-size: 0.9rem; color: var(--text-light);">
+                        <i class="fas fa-info-circle"></i> Không áp dụng cho việc đi ống gen dọc tấm panel
                     </div>
                 </div>
             </div>
@@ -668,6 +712,39 @@
                     <div class="visual-label">Đóng góp môi trường</div>
                 </div>
             </div>
+            
+            <!-- PHÂN TÍCH KỸ THUẬT BỔ SUNG -->
+            <div class="section-title">
+                <i class="fas fa-hard-hat"></i> PHÂN TÍCH KỸ THUẬT CHI TIẾT
+            </div>
+            
+            <div class="alert-box alert-warning">
+                <i class="fas fa-exclamation-circle"></i>
+                <div>
+                    <strong>Lưu ý về hệ thống điện:</strong> Việc khoét rãnh điện âm tường trong panel có thể làm giảm 15-25% hiệu suất cách nhiệt tại vị trí đó và tạo nguy cơ ngưng tụ hơi nước.
+                </div>
+            </div>
+            
+            <div class="specs-grid">
+                <div class="spec-item">
+                    <div class="spec-label">Nhiệt độ làm việc tối đa (Bông khoáng)</div>
+                    <div class="spec-value">600-750°C</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Nhiệt độ làm việc tối đa (PU)</div>
+                    <div class="spec-value">110°C</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Chênh lệch với Bông Gốm</div>
+                    <div class="spec-value">> 500°C</div>
+                    <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">Bông Gốm chịu được 1260-1430°C</div>
+                </div>
+                <div class="spec-item">
+                    <div class="spec-label">Độ bền kết cấu</div>
+                    <div class="spec-value">Không suy giảm</div>
+                    <div style="font-size: 0.8rem; color: var(--text-light); margin-top: 5px;">Khi không có khoét rãnh điện</div>
+                </div>
+            </div>
         </div>
 
         <!-- TAB 3: BÁO GIÁ & HỢP ĐỒNG -->
@@ -689,12 +766,21 @@
                         </div>
                         <div style="text-align: right;">
                             <div class="brand-badge" style="margin-bottom: 10px;">3CGREEN PANEL</div>
-                            <div class="ecosystem-tag" id="ovalTag" style="background-color: #95a5a6;">Chưa tích hợp Oval</div>
+                            <div class="technical-tag" id="mepTag">Panel kết cấu tiêu chuẩn</div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="quote-body">
+                    <!-- THÔNG BÁO QUAN TRỌNG -->
+                    <div class="alert-box alert-critical">
+                        <i class="fas fa-file-contract"></i>
+                        <div>
+                            <strong>QUAN TRỌNG: PHẠM VI CUNG CẤP VÀ GIỚI HẠN TRÁCH NHIỆM</strong><br>
+                            Báo giá này chỉ áp dụng cho tấm Panel kết cấu hoàn thiện. <strong>KHÔNG BAO GỒM</strong> vật tư và nhân công điện nước, hệ thống ống gen, dây dẫn điện, hay bất kỳ phụ kiện điện nào khác.
+                        </div>
+                    </div>
+                    
                     <h4 style="margin-bottom: 15px;">Thông số kỹ thuật</h4>
                     <div class="specs-grid">
                         <div class="spec-item">
@@ -712,6 +798,17 @@
                         <div class="spec-item">
                             <div class="spec-label">Tổng diện tích</div>
                             <div class="spec-value" id="quoteArea">300 m²</div>
+                        </div>
+                    </div>
+                    
+                    <!-- XÁC NHẬN VẬT LIỆU -->
+                    <div style="background: rgba(155, 89, 182, 0.05); padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid var(--mep);">
+                        <div style="display: flex; align-items: center; margin-bottom: 5px;">
+                            <i class="fas fa-check-circle" style="color: var(--mep); margin-right: 10px;"></i>
+                            <strong>XÁC NHẬN VẬT LIỆU:</strong>
+                        </div>
+                        <div id="materialConfirmation" style="font-size: 0.95rem;">
+                            Sản phẩm là <strong>Panel Bông Khoáng (Rockwool)</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber).
                         </div>
                     </div>
                     
@@ -751,6 +848,18 @@
                         </tfoot>
                     </table>
                     
+                    <!-- ĐIỀU KHOẢN VÀ ĐIỀU KIỆN -->
+                    <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 6px;">
+                        <h5 style="color: var(--text-dark); margin-bottom: 10px;"><i class="fas fa-gavel"></i> ĐIỀU KHOẢN VÀ ĐIỀU KIỆN</h5>
+                        <ol style="padding-left: 20px; font-size: 0.9rem;">
+                            <li>Giá trên chỉ bao gồm tấm Panel hoàn thiện, không bao gồm phụ kiện điện, hệ thống dây dẫn, ống gen.</li>
+                            <li>3CGreen chỉ sản xuất Panel Bông Khoáng (Rockwool) và Panel PU, không sản xuất Panel Bông Gốm (Ceramic Fiber).</li>
+                            <li>Dịch vụ gia công CNC (cắt lỗ, tăng cứng) chỉ áp dụng theo yêu cầu riêng và có báo giá bổ sung.</li>
+                            <li>Khuyến nghị sử dụng hệ thống nẹp điện đồng bộ thay vì đi điện âm tường trong panel.</li>
+                            <li>Mọi thay đổi về thông số kỹ thuật phải được xác nhận bằng văn bản trước khi sản xuất.</li>
+                        </ol>
+                    </div>
+                    
                     <div id="quoteWarnings" style="margin-top: 30px;">
                         <div class="alert-box alert-warning">
                             <i class="fas fa-weight-hanging"></i>
@@ -778,21 +887,25 @@
         // KHỞI TẠO HỆ THỐNG
         // =============================================
         
-        // Dữ liệu vật liệu
+        // Dữ liệu vật liệu - CHÍNH XÁC THEO BÁO CÁO
         const MATERIAL_SPECS = {
             "PU": {
                 name: "Panel PU Cách Nhiệt Cao Cấp",
                 lambda: 0.022,
                 fireRating: "B2/B3",
                 maxTemp: 110,
-                density: 40
+                density: 40,
+                materialType: "Polyurethane (PU)",
+                clarification: "Không phải Bông Gốm (Ceramic Fiber)"
             },
             "ROCKWOOL": {
-                name: "Panel Bông Khoáng Chống Cháy",
+                name: "Panel Bông Khoáng (Rockwool) Chống Cháy",
                 lambda: 0.038,
                 fireRating: "A1 (Không cháy)",
                 maxTemp: 600,
-                density: 100
+                density: 100,
+                materialType: "Bông Khoáng (Rockwool)",
+                clarification: "Không phải Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 600-750°C"
             }
         };
         
@@ -800,14 +913,16 @@
         const PRICING_STRATEGY = {
             STANDARD_MARGIN: 0.15,
             PREMIUM_MARGIN: 0.25,
-            OVAL_DISCOUNT: 0.05
+            CNC_SERVICE_FEE: 50000 // Phí gia công CNC cho các dịch vụ đặc biệt
         };
         
         // Ràng buộc kỹ thuật
         const TECHNICAL_CONSTRAINTS = {
             MIN_STEEL_FOR_LONG_PANEL: 0.40,
             LONG_PANEL_THRESHOLD: 3000,
-            HEAVY_PANEL_THRESHOLD: 50
+            HEAVY_PANEL_THRESHOLD: 50,
+            MAX_TEMP_ROCKWOOL: 600,
+            MAX_TEMP_PU: 110
         };
         
         let currentQuotation = null;
@@ -876,6 +991,7 @@
             const coreType = document.getElementById('coreType').value;
             const steelThickness = parseFloat(document.getElementById('steelThickness').value);
             const length = parseFloat(document.getElementById('length').value);
+            const density = parseInt(document.getElementById('density').value);
             
             let warnings = [];
             
@@ -893,6 +1009,14 @@
                 warnings.push({
                     type: 'warning',
                     message: `QUY ĐỊNH AN TOÀN: Panel Bông khoáng bắt buộc dùng tôn dày ≥ 0.40mm để đảm bảo độ cứng kết cấu.`
+                });
+            }
+            
+            // RULE 3: Kiểm tra tỷ trọng với Bông khoáng
+            if (coreType === 'ROCKWOOL' && density === 80) {
+                warnings.push({
+                    type: 'info',
+                    message: `THÔNG TIN: Panel Bông khoáng tỷ trọng 80kg/m³ có giá thành hợp lý, phù hợp cho hầu hết ứng dụng. Tỷ trọng 100kg/m³ được khuyến nghị cho các khu vực yêu cầu chống cháy cao.`
                 });
             }
             
@@ -922,20 +1046,6 @@
         }
         
         // =============================================
-        // TÍCH HỢP OVAL
-        // =============================================
-        function toggleOvalIntegration() {
-            const ovalIntegration = document.getElementById('ovalIntegration').checked;
-            const ovalOptions = document.getElementById('ovalOptions');
-            
-            if (ovalIntegration) {
-                ovalOptions.classList.remove('hidden');
-            } else {
-                ovalOptions.classList.add('hidden');
-            }
-        }
-        
-        // =============================================
         // TÍNH TOÁN BÁO GIÁ
         // =============================================
         function calculateQuotation() {
@@ -950,9 +1060,6 @@
                 length: parseFloat(document.getElementById('length').value),
                 width: parseFloat(document.getElementById('width').value),
                 quantity: parseFloat(document.getElementById('quantity').value),
-                ovalIntegration: document.getElementById('ovalIntegration').checked,
-                ovalSockets: parseInt(document.getElementById('ovalSockets').value),
-                ovalSwitches: parseInt(document.getElementById('ovalSwitches').value),
                 customerName: document.getElementById('customerName').value || "Khách hàng",
                 projectName: document.getElementById('projectName').value || "Dự án"
             };
@@ -979,18 +1086,18 @@
             if (inputs.coreType === 'PU') {
                 baseCostPerM2 = 350000; // Giá vốn PU
             } else {
-                baseCostPerM2 = 420000; // Giá vốn Rockwool
+                // Bông khoáng: giá thay đổi theo tỷ trọng
+                if (parseInt(inputs.density) === 80) {
+                    baseCostPerM2 = 420000;
+                } else if (parseInt(inputs.density) === 100) {
+                    baseCostPerM2 = 480000;
+                }
             }
             
             // Áp dụng margin
             let margin = PRICING_STRATEGY.STANDARD_MARGIN;
             if (inputs.coreType === 'ROCKWOOL' && parseInt(inputs.density) >= 100) {
                 margin = PRICING_STRATEGY.PREMIUM_MARGIN;
-            }
-            
-            // Áp dụng giảm giá Oval nếu có
-            if (inputs.ovalIntegration) {
-                margin -= PRICING_STRATEGY.OVAL_DISCOUNT;
             }
             
             // Tính giá bán
@@ -1048,14 +1155,17 @@
             document.getElementById('quoteCode').textContent = quoteNumber;
             document.getElementById('quoteDate').textContent = formatDate(timestamp);
             
-            // Cập nhật Oval tag
-            const ovalTag = document.getElementById('ovalTag');
-            if (inputs.ovalIntegration) {
-                ovalTag.textContent = "Đã tích hợp Oval";
-                ovalTag.style.backgroundColor = '#3498db';
+            // Cập nhật MEP tag
+            const mepTag = document.getElementById('mepTag');
+            mepTag.textContent = "Panel kết cấu tiêu chuẩn";
+            mepTag.style.backgroundColor = '#3498db';
+            
+            // Cập nhật xác nhận vật liệu
+            const materialConfirmation = document.getElementById('materialConfirmation');
+            if (inputs.coreType === 'ROCKWOOL') {
+                materialConfirmation.innerHTML = `Sản phẩm là <strong>Panel Bông Khoáng (Rockwool)</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 600-750°C`;
             } else {
-                ovalTag.textContent = "Chưa tích hợp Oval";
-                ovalTag.style.backgroundColor = '#95a5a6';
+                materialConfirmation.innerHTML = `Sản phẩm là <strong>Panel Polyurethane (PU)</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 110°C`;
             }
             
             // Cập nhật thông số sản phẩm
@@ -1118,6 +1228,17 @@
                     </div>
                 `;
             }
+            
+            // Cảnh báo về hệ thống điện
+            warningsHTML += `
+                <div class="alert-box alert-warning">
+                    <i class="fas fa-plug"></i>
+                    <div>
+                        <strong>HỆ THỐNG ĐIỆN:</strong> Panel không tích hợp sẵn hệ thống điện âm tường. 
+                        Khuyến nghị sử dụng nẹp điện đồng bộ hoặc đi dây trong trần/sàn kỹ thuật.
+                    </div>
+                </div>
+            `;
             
             document.getElementById('quoteWarnings').innerHTML = warningsHTML;
         }
@@ -1293,6 +1414,7 @@
             document.getElementById('length').addEventListener('input', checkTechnicalConstraints);
             document.getElementById('steelThickness').addEventListener('change', checkTechnicalConstraints);
             document.getElementById('coreType').addEventListener('change', checkTechnicalConstraints);
+            document.getElementById('density').addEventListener('change', checkTechnicalConstraints);
         });
     </script>
 </body>
