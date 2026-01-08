@@ -504,9 +504,7 @@
                     <div class="input-group">
                         <label>Tỷ trọng lõi (kg/m³)</label>
                         <select id="density" class="form-control" onchange="updateMaterialSpecs()">
-                            <option value="40">40 kg/m³ (PU Tiêu chuẩn)</option>
-                            <option value="80">80 kg/m³ (Bông khoáng phổ thông)</option>
-                            <option value="100">100 kg/m³ (Bông khoáng cao cấp)</option>
+                            <!-- Options sẽ được cập nhật động theo coreType -->
                         </select>
                     </div>
                 </div>
@@ -519,6 +517,7 @@
                             <label>Độ dày panel (mm)</label>
                             <select id="thickness" class="form-control" onchange="updateMaterialSpecs()">
                                 <option value="50">50 mm</option>
+                                <option value="60">60 mm</option>
                                 <option value="75">75 mm</option>
                                 <option value="100">100 mm</option>
                             </select>
@@ -527,9 +526,7 @@
                         <div class="input-field">
                             <label>Độ dày tôn (mm)</label>
                             <select id="steelThickness" class="form-control" onchange="checkTechnicalConstraints()">
-                                <option value="0.35">0.35 mm</option>
-                                <option value="0.40">0.40 mm (Khuyến nghị)</option>
-                                <option value="0.45">0.45 mm</option>
+                                <!-- Options sẽ được cập nhật động theo coreType -->
                             </select>
                         </div>
                     </div>
@@ -537,7 +534,7 @@
                     <div class="input-row">
                         <div class="input-field">
                             <label>Chiều dài tấm (mm)</label>
-                            <input type="number" id="length" class="form-control" value="3000" min="500" max="12000" step="100" onchange="checkTechnicalConstraints()">
+                            <input type="number" id="length" class="form-control" value="6000" min="500" max="12000" step="100" onchange="checkTechnicalConstraints()">
                         </div>
                         
                         <div class="input-field">
@@ -548,7 +545,13 @@
                     
                     <div class="input-group">
                         <label>Số lượng tấm</label>
-                        <input type="number" id="quantity" class="form-control" value="100" min="1" max="10000" step="1">
+                        <input type="number" id="quantity" class="form-control" value="1" min="1" max="10000" step="1">
+                    </div>
+
+                    <div class="input-group">
+                        <label>Khoảng cách vận chuyển (km)</label>
+                        <input type="number" id="distance" class="form-control" value="0" min="0" step="1">
+                        <small style="color: var(--text-light);">Nhập 0 nếu khách tự vận chuyển</small>
                     </div>
                 </div>
             </div>
@@ -789,15 +792,15 @@
                         </div>
                         <div class="spec-item">
                             <div class="spec-label">Kích thước</div>
-                            <div class="spec-value" id="quoteDimensions">3000 × 1000 × 50 mm</div>
+                            <div class="spec-value" id="quoteDimensions">6000 × 1000 × 50 mm</div>
                         </div>
                         <div class="spec-item">
                             <div class="spec-label">Số lượng</div>
-                            <div class="spec-value" id="quoteQuantity">100 tấm</div>
+                            <div class="spec-value" id="quoteQuantity">1 tấm</div>
                         </div>
                         <div class="spec-item">
                             <div class="spec-label">Tổng diện tích</div>
-                            <div class="spec-value" id="quoteArea">300 m²</div>
+                            <div class="spec-value" id="quoteArea">6 m²</div>
                         </div>
                     </div>
                     
@@ -824,26 +827,28 @@
                             </tr>
                         </thead>
                         <tbody id="quoteDetails">
-                            <tr>
-                                <td>Panel PU 50mm 40kg/m³</td>
-                                <td>m²</td>
-                                <td>300.00</td>
-                                <td>450,000</td>
-                                <td>135,000,000</td>
-                            </tr>
+                            <!-- Dữ liệu sẽ được thêm động -->
                         </tbody>
                         <tfoot>
+                            <tr id="surchargeRow" style="display: none;">
+                                <td colspan="4">Phụ phí đơn hàng nhỏ</td>
+                                <td id="quoteSurcharge">0</td>
+                            </tr>
+                            <tr id="transportRow" style="display: none;">
+                                <td colspan="4">Phí vận chuyển</td>
+                                <td id="quoteTransport">0</td>
+                            </tr>
                             <tr class="total-row">
                                 <td colspan="4">TỔNG CỘNG (Chưa VAT)</td>
-                                <td id="quoteSubtotal">135,000,000</td>
+                                <td id="quoteSubtotal">0</td>
                             </tr>
                             <tr>
                                 <td colspan="4">Thuế VAT (10%)</td>
-                                <td id="quoteVAT">13,500,000</td>
+                                <td id="quoteVAT">0</td>
                             </tr>
                             <tr class="total-row">
                                 <td colspan="4">TỔNG CỘNG SAU THUẾ</td>
-                                <td id="quoteTotal">148,500,000</td>
+                                <td id="quoteTotal">0</td>
                             </tr>
                         </tfoot>
                     </table>
@@ -852,21 +857,16 @@
                     <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 6px;">
                         <h5 style="color: var(--text-dark); margin-bottom: 10px;"><i class="fas fa-gavel"></i> ĐIỀU KHOẢN VÀ ĐIỀU KIỆN</h5>
                         <ol style="padding-left: 20px; font-size: 0.9rem;">
-                            <li>Giá trên chỉ bao gồm tấm Panel hoàn thiện, không bao gồm phụ kiện điện, hệ thống dây dẫn, ống gen.</li>
+                            <li>Giá trên đã bao gồm thuế VAT 10%.</li>
+                            <li>Phí vận chuyển: Đơn giá chưa bao gồm chi phí vận chuyển. Phí vận chuyển sẽ được báo riêng theo khoảng cách và địa điểm giao hàng.</li>
+                            <li>Phụ phí đơn hàng nhỏ: Áp dụng cho đơn hàng Panel PU dưới 200m² và Panel Bông khoáng dưới 100m².</li>
                             <li>3CGreen chỉ sản xuất Panel Bông Khoáng (Rockwool) và Panel PU, không sản xuất Panel Bông Gốm (Ceramic Fiber).</li>
-                            <li>Dịch vụ gia công CNC (cắt lỗ, tăng cứng) chỉ áp dụng theo yêu cầu riêng và có báo giá bổ sung.</li>
-                            <li>Khuyến nghị sử dụng hệ thống nẹp điện đồng bộ thay vì đi điện âm tường trong panel.</li>
                             <li>Mọi thay đổi về thông số kỹ thuật phải được xác nhận bằng văn bản trước khi sản xuất.</li>
                         </ol>
                     </div>
                     
                     <div id="quoteWarnings" style="margin-top: 30px;">
-                        <div class="alert-box alert-warning">
-                            <i class="fas fa-weight-hanging"></i>
-                            <div>
-                                <strong>LƯU Ý THI CÔNG:</strong> Mỗi tấm nặng khoảng 42kg. Yêu cầu sử dụng xe nâng cho thi công.
-                            </div>
-                        </div>
+                        <!-- Cảnh báo sẽ được thêm động -->
                     </div>
                     
                     <div style="display: flex; gap: 15px; margin-top: 30px; flex-wrap: wrap;">
@@ -887,103 +887,199 @@
         // KHỞI TẠO HỆ THỐNG
         // =============================================
         
-        // Dữ liệu vật liệu - CHÍNH XÁC THEO BÁO CÁO
+        // Dữ liệu vật liệu - CẬP NHẬT THEO EXCEL
         const MATERIAL_SPECS = {
             "PU": {
                 name: "Panel PU Cách Nhiệt Cao Cấp",
                 lambda: 0.022,
-                fireRating: "B2/B3",
+                fireRating: "B3",
                 maxTemp: 110,
-                density: 40,
                 materialType: "Polyurethane (PU)",
-                clarification: "Không phải Bông Gốm (Ceramic Fiber)"
+                clarification: "Không phải Bông Gốm (Ceramic Fiber)",
+                densities: [40],
+                thicknesses: [50, 60, 75, 100],
+                steelThicknesses: [0.35, 0.40],
+                surcharge: {
+                    threshold: 200,
+                    rates: [
+                        { min: 0, max: 100, rate: 5000 },
+                        { min: 100, max: 200, rate: 2000 }
+                    ]
+                }
             },
             "ROCKWOOL": {
                 name: "Panel Bông Khoáng (Rockwool) Chống Cháy",
                 lambda: 0.038,
-                fireRating: "A1 (Không cháy)",
-                maxTemp: 600,
-                density: 100,
+                fireRating: "Không cháy",
+                maxTemp: 750,
                 materialType: "Bông Khoáng (Rockwool)",
-                clarification: "Không phải Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 600-750°C"
+                clarification: "Không phải Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 600-750°C",
+                densities: [80, 100],
+                thicknesses: [50, 75, 100],
+                steelThicknesses: [0.35, 0.40, 0.60],
+                surcharge: {
+                    threshold: 100,
+                    rates: [{ min: 0, max: 100, rate: 3000 }]
+                }
             }
         };
-        
-        // Chiến lược định giá
-        const PRICING_STRATEGY = {
-            STANDARD_MARGIN: 0.15,
-            PREMIUM_MARGIN: 0.25,
-            CNC_SERVICE_FEE: 50000 // Phí gia công CNC cho các dịch vụ đặc biệt
+
+        // Dữ liệu giá từ Excel - GIÁ ĐÃ BAO GỒM VAT 10%
+        const PRICE_DATA = {
+            "PU": {
+                50: {
+                    40: {
+                        0.35: 438823.53, // 373000/0.85
+                        0.40: 468235.29  // 398000/0.85
+                    }
+                },
+                60: {
+                    40: {
+                        0.35: 476470.59, // 405000/0.85
+                        0.40: 505882.35  // 430000/0.85
+                    }
+                },
+                75: {
+                    40: {
+                        0.35: 531764.71, // 452000/0.85
+                        0.40: 561176.47  // 477000/0.85
+                    }
+                },
+                100: {
+                    40: {
+                        0.35: 651764.71, // 554000/0.85
+                        0.40: 682352.94  // 580000/0.85
+                    }
+                }
+            },
+            "ROCKWOOL": {
+                50: {
+                    80: {
+                        0.35: 330588.24, // 281000/0.85
+                        0.40: 360000.00, // 306000/0.85
+                        0.60: 0 // Thêm nếu có trong Excel
+                    },
+                    100: {
+                        0.35: 348235.29, // 296000/0.85
+                        0.40: 378823.53, // 322000/0.85
+                        0.60: 0
+                    }
+                },
+                75: {
+                    80: {
+                        0.35: 370588.24, // 315000/0.85
+                        0.40: 400000.00, // 340000/0.85
+                        0.60: 0
+                    },
+                    100: {
+                        0.35: 397647.06, // 338000/0.85
+                        0.40: 427058.82, // 363000/0.85
+                        0.60: 0
+                    }
+                },
+                100: {
+                    80: {
+                        0.35: 425882.35, // 362000/0.85
+                        0.40: 455294.12, // 387000/0.85
+                        0.60: 0
+                    },
+                    100: {
+                        0.35: 463529.41, // 394000/0.85
+                        0.40: 494117.65, // 420000/0.85
+                        0.60: 0
+                    }
+                }
+            }
         };
-        
-        // Ràng buộc kỹ thuật
-        const TECHNICAL_CONSTRAINTS = {
-            MIN_STEEL_FOR_LONG_PANEL: 0.40,
-            LONG_PANEL_THRESHOLD: 3000,
-            HEAVY_PANEL_THRESHOLD: 50,
-            MAX_TEMP_ROCKWOOL: 600,
-            MAX_TEMP_PU: 110
+
+        // Phí vận chuyển linh hoạt
+        const TRANSPORT_RATES = {
+            base: 15000,
+            perKm: 200,
+            minDistance: 0,
+            maxDistance: 300
         };
-        
+
+        // Thuế VAT
+        const VAT_RATE = 0.10;
+
         let currentQuotation = null;
         let insulationChart = null;
         let savingsChart = null;
-        
+
         // =============================================
         // HÀM CHUYỂN TAB
         // =============================================
         function switchTab(tabName) {
             console.log("Chuyển sang tab:", tabName);
             
-            // Ẩn tất cả các tab content
             document.getElementById('tab-config-content').classList.add('hidden');
             document.getElementById('tab-analysis-content').classList.add('hidden');
             document.getElementById('tab-quote-content').classList.add('hidden');
             
-            // Xóa active từ tất cả các tab button
             document.getElementById('tab-config').classList.remove('active');
             document.getElementById('tab-analysis').classList.remove('active');
             document.getElementById('tab-quote').classList.remove('active');
             
-            // Hiển thị tab được chọn và thêm class active
             document.getElementById(`tab-${tabName}-content`).classList.remove('hidden');
             document.getElementById(`tab-${tabName}`).classList.add('active');
             
-            // Nếu chuyển sang tab phân tích, cập nhật biểu đồ
-            if (tabName === 'analysis') {
-                updateAnalysisCharts();
-            }
-            
-            // Nếu chuyển sang tab báo giá, cập nhật thông tin
-            if (tabName === 'quote' && currentQuotation) {
-                updateQuotationDisplay();
-            }
+            if (tabName === 'analysis') updateAnalysisCharts();
+            if (tabName === 'quote' && currentQuotation) updateQuotationDisplay();
         }
-        
+
+        // =============================================
+        // KHỞI TẠO FORM
+        // =============================================
+        function initForm() {
+            updateMaterialSpecs();
+            createDefaultCharts();
+            
+            document.getElementById('length').addEventListener('input', checkTechnicalConstraints);
+            document.getElementById('steelThickness').addEventListener('change', checkTechnicalConstraints);
+            document.getElementById('coreType').addEventListener('change', updateMaterialSpecs);
+        }
+
         // =============================================
         // CẬP NHẬT THÔNG SỐ VẬT LIỆU
         // =============================================
         function updateMaterialSpecs() {
             const coreType = document.getElementById('coreType').value;
-            const thickness = parseFloat(document.getElementById('thickness').value);
-            const density = document.getElementById('density').value;
-            
+            const thickness = parseInt(document.getElementById('thickness').value);
             const material = MATERIAL_SPECS[coreType];
+            
+            // Cập nhật tỷ trọng
+            const densitySelect = document.getElementById('density');
+            densitySelect.innerHTML = '';
+            material.densities.forEach(density => {
+                const option = document.createElement('option');
+                option.value = density;
+                option.textContent = `${density} kg/m³`;
+                densitySelect.appendChild(option);
+            });
+            
+            // Cập nhật độ dày tôn
+            const steelSelect = document.getElementById('steelThickness');
+            steelSelect.innerHTML = '';
+            material.steelThicknesses.forEach(thickness => {
+                const option = document.createElement('option');
+                option.value = thickness;
+                option.textContent = `${thickness} mm`;
+                steelSelect.appendChild(option);
+            });
             
             // Tính toán nhiệt trở
             const rValue = (thickness / 1000) / material.lambda;
-            const uValue = 1 / rValue;
             
             // Cập nhật hiển thị
             document.getElementById('lambdaValue').textContent = `${material.lambda} W/m.K`;
             document.getElementById('rValue').textContent = `${rValue.toFixed(2)} m².K/W`;
             document.getElementById('fireRating').textContent = material.fireRating;
-            document.getElementById('densityValue').textContent = `${density} kg/m³`;
+            document.getElementById('densityValue').textContent = `${densitySelect.value} kg/m³`;
             
-            // Kiểm tra ràng buộc kỹ thuật
             checkTechnicalConstraints();
         }
-        
+
         // =============================================
         // KIỂM TRA RÀNG BUỘC KỸ THUẬT
         // =============================================
@@ -991,39 +1087,29 @@
             const coreType = document.getElementById('coreType').value;
             const steelThickness = parseFloat(document.getElementById('steelThickness').value);
             const length = parseFloat(document.getElementById('length').value);
-            const density = parseInt(document.getElementById('density').value);
+            const thickness = parseInt(document.getElementById('thickness').value);
             
             let warnings = [];
             
-            // RULE 1: Tấm dài > 3m phải dùng tôn dày ≥ 0.4mm
-            if (length > TECHNICAL_CONSTRAINTS.LONG_PANEL_THRESHOLD && 
-                steelThickness < TECHNICAL_CONSTRAINTS.MIN_STEEL_FOR_LONG_PANEL) {
+            // RULE 1: Tấm dài > 3m với tôn mỏng
+            if (length > 3000 && steelThickness < 0.40) {
                 warnings.push({
                     type: 'warning',
-                    message: `CẢNH BÁO KỸ THUẬT: Tấm dài ${length}mm yêu cầu tôn dày tối thiểu ${TECHNICAL_CONSTRAINTS.MIN_STEEL_FOR_LONG_PANEL}mm để tránh hiện tượng "gợn sóng" (Oil Canning).`
+                    message: `CẢNH BÁO: Tấm dài ${length}mm với tôn ${steelThickness}mm có thể bị gợn sóng. Khuyến nghị dùng tôn 0.40mm trở lên.`
                 });
             }
             
-            // RULE 2: Bông khoáng không dùng tôn 0.35mm
-            if (coreType === 'ROCKWOOL' && steelThickness < 0.40) {
+            // RULE 2: Bông khoáng dày 100mm với tôn 0.35mm
+            if (coreType === 'ROCKWOOL' && thickness >= 100 && steelThickness < 0.40) {
                 warnings.push({
                     type: 'warning',
-                    message: `QUY ĐỊNH AN TOÀN: Panel Bông khoáng bắt buộc dùng tôn dày ≥ 0.40mm để đảm bảo độ cứng kết cấu.`
+                    message: `QUY ĐỊNH AN TOÀN: Panel Bông khoáng dày ${thickness}mm nên dùng tôn ≥ 0.40mm để đảm bảo độ cứng.`
                 });
             }
             
-            // RULE 3: Kiểm tra tỷ trọng với Bông khoáng
-            if (coreType === 'ROCKWOOL' && density === 80) {
-                warnings.push({
-                    type: 'info',
-                    message: `THÔNG TIN: Panel Bông khoáng tỷ trọng 80kg/m³ có giá thành hợp lý, phù hợp cho hầu hết ứng dụng. Tỷ trọng 100kg/m³ được khuyến nghị cho các khu vực yêu cầu chống cháy cao.`
-                });
-            }
-            
-            // Hiển thị cảnh báo
             displayTechnicalWarnings(warnings);
         }
-        
+
         function displayTechnicalWarnings(warnings) {
             const container = document.getElementById('technicalWarnings');
             
@@ -1034,8 +1120,9 @@
             
             let warningsHTML = '';
             warnings.forEach(warning => {
+                const alertClass = warning.type === 'warning' ? 'alert-warning' : 'alert-info';
                 warningsHTML += `
-                    <div class="alert-box alert-${warning.type}">
+                    <div class="alert-box ${alertClass}">
                         <i class="fas fa-exclamation-triangle"></i>
                         <div>${warning.message}</div>
                     </div>
@@ -1044,93 +1131,122 @@
             
             container.innerHTML = warningsHTML;
         }
-        
+
+        // =============================================
+        // TÍNH PHỤ PHÍ ĐƠN HÀNG NHỎ
+        // =============================================
+        function calculateSurcharge(area, coreType) {
+            const material = MATERIAL_SPECS[coreType];
+            if (!material.surcharge) return 0;
+            
+            if (area < material.surcharge.threshold) {
+                const rateInfo = material.surcharge.rates.find(rate => 
+                    area >= rate.min && area < rate.max
+                );
+                return rateInfo ? rateInfo.rate : 0;
+            }
+            return 0;
+        }
+
+        // =============================================
+        // TÍNH PHÍ VẬN CHUYỂN
+        // =============================================
+        function calculateTransportFee(distance, area) {
+            if (!distance || distance <= 0) return 0;
+            
+            let fee = TRANSPORT_RATES.base;
+            if (distance > 50) {
+                fee += (distance - 50) * TRANSPORT_RATES.perKm;
+            }
+            
+            // Giới hạn phí vận chuyển
+            fee = Math.min(fee, TRANSPORT_RATES.base * 3);
+            
+            return fee * area;
+        }
+
         // =============================================
         // TÍNH TOÁN BÁO GIÁ
         // =============================================
         function calculateQuotation() {
             console.log("Bắt đầu tính toán báo giá...");
             
-            // Thu thập dữ liệu đầu vào
             const inputs = {
                 coreType: document.getElementById('coreType').value,
-                density: document.getElementById('density').value,
-                thickness: parseFloat(document.getElementById('thickness').value),
-                steelThickness: document.getElementById('steelThickness').value,
+                density: parseInt(document.getElementById('density').value),
+                thickness: parseInt(document.getElementById('thickness').value),
+                steelThickness: parseFloat(document.getElementById('steelThickness').value),
                 length: parseFloat(document.getElementById('length').value),
                 width: parseFloat(document.getElementById('width').value),
-                quantity: parseFloat(document.getElementById('quantity').value),
+                quantity: parseInt(document.getElementById('quantity').value),
+                distance: parseFloat(document.getElementById('distance').value),
                 customerName: document.getElementById('customerName').value || "Khách hàng",
                 projectName: document.getElementById('projectName').value || "Dự án"
             };
             
-            // Tính toán
             currentQuotation = performQuotationCalculation(inputs);
-            
-            // Chuyển sang tab báo giá
             switchTab('quote');
-            
-            // Cập nhật phân tích
             updateAnalysisCharts();
             
             alert("Báo giá đã được tính toán thành công!");
         }
-        
+
         function performQuotationCalculation(inputs) {
             // Tính diện tích
             const areaPerPanel = (inputs.length * inputs.width) / 1000000;
             const totalArea = areaPerPanel * inputs.quantity;
             
-            // Xác định giá cơ bản dựa trên loại panel
-            let baseCostPerM2 = 0;
-            if (inputs.coreType === 'PU') {
-                baseCostPerM2 = 350000; // Giá vốn PU
-            } else {
-                // Bông khoáng: giá thay đổi theo tỷ trọng
-                if (parseInt(inputs.density) === 80) {
-                    baseCostPerM2 = 420000;
-                } else if (parseInt(inputs.density) === 100) {
-                    baseCostPerM2 = 480000;
+            // Lấy giá từ bảng giá
+            let unitPrice = 0;
+            try {
+                unitPrice = PRICE_DATA[inputs.coreType][inputs.thickness][inputs.density][inputs.steelThickness];
+                if (!unitPrice || unitPrice === 0) {
+                    throw new Error("Không tìm thấy giá cho cấu hình này");
                 }
+            } catch (error) {
+                alert("Cấu hình chưa được hỗ trợ. Vui lòng liên hệ bộ phận kinh doanh.");
+                return null;
             }
             
-            // Áp dụng margin
-            let margin = PRICING_STRATEGY.STANDARD_MARGIN;
-            if (inputs.coreType === 'ROCKWOOL' && parseInt(inputs.density) >= 100) {
-                margin = PRICING_STRATEGY.PREMIUM_MARGIN;
-            }
+            // Tính tổng tiền sản phẩm (đã bao gồm VAT)
+            const productTotal = unitPrice * totalArea;
             
-            // Tính giá bán
-            const sellingPricePerM2 = baseCostPerM2 / (1 - margin);
-            const subtotal = sellingPricePerM2 * totalArea;
-            const vat = subtotal * 0.1;
-            const total = subtotal + vat;
+            // Tính phụ phí đơn hàng nhỏ
+            const surchargeRate = calculateSurcharge(totalArea, inputs.coreType);
+            const surchargeTotal = surchargeRate * totalArea;
             
-            // Tính trọng lượng
-            const material = MATERIAL_SPECS[inputs.coreType];
-            const volume = totalArea * (inputs.thickness / 1000);
-            const coreWeight = volume * inputs.density;
-            const steelWeight = totalArea * 2 * 3.5;
-            const totalWeight = coreWeight + steelWeight;
-            const weightPerPanel = totalWeight / inputs.quantity;
+            // Tính phí vận chuyển
+            const transportTotal = calculateTransportFee(inputs.distance, totalArea);
+            
+            // Tổng tiền chưa VAT
+            const subtotal = productTotal + surchargeTotal + transportTotal;
+            
+            // VAT đã được tính trong unitPrice, nhưng phụ phí và vận chuyển chưa VAT
+            // Tính VAT cho phần phụ phí và vận chuyển
+            const vatOnExtras = (surchargeTotal + transportTotal) * VAT_RATE;
+            
+            // Tổng tiền sau thuế
+            const total = subtotal + vatOnExtras;
             
             return {
                 inputs: inputs,
                 calculations: {
                     areaPerPanel: areaPerPanel,
                     totalArea: totalArea,
-                    sellingPricePerM2: sellingPricePerM2,
+                    unitPrice: unitPrice,
+                    productTotal: productTotal,
+                    surchargeRate: surchargeRate,
+                    surchargeTotal: surchargeTotal,
+                    transportTotal: transportTotal,
                     subtotal: subtotal,
-                    vat: vat,
-                    total: total,
-                    totalWeight: totalWeight,
-                    weightPerPanel: weightPerPanel
+                    vatOnExtras: vatOnExtras,
+                    total: total
                 },
                 timestamp: new Date(),
                 quoteNumber: generateQuoteNumber()
             };
         }
-        
+
         function generateQuoteNumber() {
             const now = new Date();
             const year = now.getFullYear();
@@ -1139,7 +1255,7 @@
             const random = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
             return `3CG-${year}${month}${day}-${random}`;
         }
-        
+
         // =============================================
         // CẬP NHẬT HIỂN THỊ BÁO GIÁ
         // =============================================
@@ -1156,21 +1272,15 @@
             document.getElementById('quoteDate').textContent = formatDate(timestamp);
             
             // Cập nhật MEP tag
-            const mepTag = document.getElementById('mepTag');
-            mepTag.textContent = "Panel kết cấu tiêu chuẩn";
-            mepTag.style.backgroundColor = '#3498db';
+            document.getElementById('mepTag').textContent = "Panel kết cấu tiêu chuẩn";
             
             // Cập nhật xác nhận vật liệu
-            const materialConfirmation = document.getElementById('materialConfirmation');
-            if (inputs.coreType === 'ROCKWOOL') {
-                materialConfirmation.innerHTML = `Sản phẩm là <strong>Panel Bông Khoáng (Rockwool)</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 600-750°C`;
-            } else {
-                materialConfirmation.innerHTML = `Sản phẩm là <strong>Panel Polyurethane (PU)</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber). Nhiệt độ làm việc tối đa: 110°C`;
-            }
+            document.getElementById('materialConfirmation').innerHTML = 
+                `Sản phẩm là <strong>${material.materialType}</strong> - KHÔNG PHẢI Panel Bông Gốm (Ceramic Fiber). ${material.clarification}`;
             
             // Cập nhật thông số sản phẩm
             document.getElementById('quotePanelType').textContent = 
-                `${material.name} ${inputs.thickness}mm (${inputs.density}kg/m³)`;
+                `${material.name} ${inputs.thickness}mm (${inputs.density}kg/m³, tôn ${inputs.steelThickness}mm)`;
             document.getElementById('quoteDimensions').textContent = 
                 `${inputs.length} × ${inputs.width} × ${inputs.thickness} mm`;
             document.getElementById('quoteQuantity').textContent = 
@@ -1179,42 +1289,47 @@
                 `${calculations.totalArea.toFixed(2)} m²`;
             
             // Cập nhật bảng giá
-            document.getElementById('quoteDetails').innerHTML = `
+            const detailsHTML = `
                 <tr>
                     <td>${material.name} ${inputs.thickness}mm</td>
                     <td>m²</td>
                     <td>${calculations.totalArea.toFixed(2)}</td>
-                    <td>${formatCurrency(calculations.sellingPricePerM2)}</td>
-                    <td>${formatCurrency(calculations.subtotal)}</td>
+                    <td>${formatCurrency(calculations.unitPrice)}</td>
+                    <td>${formatCurrency(calculations.productTotal)}</td>
                 </tr>
             `;
+            document.getElementById('quoteDetails').innerHTML = detailsHTML;
+            
+            // Hiển thị phụ phí nếu có
+            const surchargeRow = document.getElementById('surchargeRow');
+            const transportRow = document.getElementById('transportRow');
+            
+            if (calculations.surchargeTotal > 0) {
+                surchargeRow.style.display = 'table-row';
+                document.getElementById('quoteSurcharge').textContent = formatCurrency(calculations.surchargeTotal);
+            } else {
+                surchargeRow.style.display = 'none';
+            }
+            
+            if (calculations.transportTotal > 0) {
+                transportRow.style.display = 'table-row';
+                document.getElementById('quoteTransport').textContent = formatCurrency(calculations.transportTotal);
+            } else {
+                transportRow.style.display = 'none';
+            }
             
             document.getElementById('quoteSubtotal').textContent = formatCurrency(calculations.subtotal);
-            document.getElementById('quoteVAT').textContent = formatCurrency(calculations.vat);
+            document.getElementById('quoteVAT').textContent = formatCurrency(calculations.vatOnExtras);
             document.getElementById('quoteTotal').textContent = formatCurrency(calculations.total);
             
-            // Cập nhật cảnh báo
             updateQuotationWarnings();
         }
-        
+
         function updateQuotationWarnings() {
             if (!currentQuotation) return;
             
             const { inputs, calculations } = currentQuotation;
             let warningsHTML = '';
-            
-            // Cảnh báo trọng lượng
-            if (calculations.weightPerPanel > TECHNICAL_CONSTRAINTS.HEAVY_PANEL_THRESHOLD) {
-                warningsHTML += `
-                    <div class="alert-box alert-warning">
-                        <i class="fas fa-weight-hanging"></i>
-                        <div>
-                            <strong>LƯU Ý THI CÔNG:</strong> Mỗi tấm nặng ${calculations.weightPerPanel.toFixed(1)}kg. 
-                            Yêu cầu sử dụng xe cẩu/xe nâng. <strong>Không được lắp đặt thủ công.</strong>
-                        </div>
-                    </div>
-                `;
-            }
             
             // Cảnh báo về PCCC nếu là PU
             if (inputs.coreType === 'PU') {
@@ -1223,7 +1338,20 @@
                         <i class="fas fa-fire-extinguisher"></i>
                         <div>
                             <strong>THÔNG TIN PCCC:</strong> Panel PU có cấp chịu lửa ${MATERIAL_SPECS.PU.fireRating}. 
-                            Đối với khu vực yêu cầu PCCC cao, vui lòng cân nhắc Panel Bông khoáng (cấp A1 - Không cháy).
+                            Đối với khu vực yêu cầu PCCC cao, vui lòng cân nhắc Panel Bông khoáng (không cháy).
+                        </div>
+                    </div>
+                `;
+            }
+            
+            // Cảnh báo về phụ phí
+            if (calculations.surchargeTotal > 0) {
+                warningsHTML += `
+                    <div class="alert-box alert-warning">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <div>
+                            <strong>PHỤ PHÍ ĐƠN HÀNG NHỎ:</strong> Áp dụng phụ phí ${formatCurrency(calculations.surchargeRate)}/m² 
+                            cho đơn hàng ${calculations.totalArea.toFixed(2)}m² (${inputs.coreType === 'PU' ? 'dưới 200m²' : 'dưới 100m²'}).
                         </div>
                     </div>
                 `;
@@ -1242,7 +1370,7 @@
             
             document.getElementById('quoteWarnings').innerHTML = warningsHTML;
         }
-        
+
         // =============================================
         // PHÂN TÍCH HIỆU QUẢ
         // =============================================
@@ -1259,13 +1387,10 @@
             const rValue = (inputs.thickness / 1000) / material.lambda;
             const uValue = 1 / rValue;
             
-            // So sánh với tường gạch (U ≈ 2.0 W/m².K)
             const brickUValue = 2.0;
-            
-            // Tính tiết kiệm năng lượng
-            const operatingHours = 10 * 312; // 10h/ngày × 312 ngày/năm
+            const operatingHours = 10 * 312;
             const energySavings = calculations.totalArea * (brickUValue - uValue) * operatingHours * 0.6 / 3.0;
-            const co2Reduction = energySavings * 0.5; // Giả sử 0.5kg CO2/kWh
+            const co2Reduction = energySavings * 0.5;
             
             // Cập nhật chỉ số
             document.getElementById('analysisUValue').textContent = `${uValue.toFixed(2)} W/m²K`;
@@ -1273,11 +1398,10 @@
             document.getElementById('energySavings').textContent = `${Math.round(energySavings).toLocaleString()} kWh`;
             document.getElementById('co2Reduction').textContent = `${Math.round(co2Reduction).toLocaleString()} kg`;
             
-            // Vẽ biểu đồ
             createInsulationChart(uValue, brickUValue);
             createSavingsChart(energySavings);
         }
-        
+
         function createDefaultCharts() {
             const ctx1 = document.getElementById('insulationChart').getContext('2d');
             const ctx2 = document.getElementById('savingsChart').getContext('2d');
@@ -1323,7 +1447,7 @@
                 }
             });
         }
-        
+
         function createInsulationChart(uValue, brickUValue) {
             const ctx = document.getElementById('insulationChart').getContext('2d');
             
@@ -1354,7 +1478,7 @@
                 }
             });
         }
-        
+
         function createSavingsChart(energySavings) {
             const ctx = document.getElementById('savingsChart').getContext('2d');
             const wastedEnergy = energySavings * 0.35;
@@ -1374,7 +1498,7 @@
                 }
             });
         }
-        
+
         // =============================================
         // TIỆN ÍCH
         // =============================================
@@ -1385,7 +1509,7 @@
                 minimumFractionDigits: 0
             }).format(amount);
         }
-        
+
         function formatDate(date) {
             return new Intl.DateTimeFormat('vi-VN', {
                 day: '2-digit',
@@ -1393,28 +1517,21 @@
                 year: 'numeric'
             }).format(date);
         }
-        
+
         function generatePDF() {
             alert("PDF báo giá đã được tạo thành công!\n\nTrong hệ thống thực tế, file PDF sẽ được tải xuống tự động.");
         }
-        
+
         function printQuote() {
             window.print();
         }
-        
+
         // =============================================
         // KHỞI TẠO
         // =============================================
         document.addEventListener('DOMContentLoaded', function() {
             console.log("Hệ thống khởi động...");
-            updateMaterialSpecs();
-            createDefaultCharts();
-            
-            // Thêm sự kiện real-time calculation
-            document.getElementById('length').addEventListener('input', checkTechnicalConstraints);
-            document.getElementById('steelThickness').addEventListener('change', checkTechnicalConstraints);
-            document.getElementById('coreType').addEventListener('change', checkTechnicalConstraints);
-            document.getElementById('density').addEventListener('change', checkTechnicalConstraints);
+            initForm();
         });
     </script>
 </body>
